@@ -38,7 +38,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send("You said: %s", session.message.text);
     session.send("You said: %s", session.message.text);
 });
-
+ 
 var program = {
 
     Constants = {
