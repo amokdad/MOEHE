@@ -41,7 +41,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
  
 var program = {
 
-    Constants = {
+    Constants : {
         StudentParentTeacher : {
             en:"Student|Parent|Teacher|Nothing",
             ar:"طالب/طالبة|أهل|أستاذ/استاذة|لا أريد الإنتقاء "
