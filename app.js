@@ -35,10 +35,12 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            var msg = new builder.Message(session)
-            .speak('This is the text that will be spoken.')
-            .inputHint(builder.InputHint.acceptingInput);
-        session.send(msg).endDialog();
+           
+            session.say('Please hold while I calculate a response.', 
+            'Please hold while I calculate a response.', 
+            { inputHint: builder.InputHint.ignoringInput }
+            );
+
             session.beginDialog("identifyRole");
         }
      });
