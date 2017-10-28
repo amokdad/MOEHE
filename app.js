@@ -13,8 +13,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
   
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword,
+    //appId: process.env.MicrosoftAppId,
+    //appPassword: process.env.MicrosoftAppPassword,
+    appId: "393c6209-b180-441c-ae4e-7b0b62906066",
+    appPassword: "plucpNTL2!_rbBCFU5402#|",
     stateEndpoint: process.env.BotStateEndpoint,
     openIdMetadata: process.env.BotOpenIdMetadata 
 });
@@ -47,7 +49,15 @@ var program = {
             en:"Student|Parent|Teacher|Nothing",
             ar:"طالب/طالبة|أهل|أستاذ/استاذة|لا أريد الإنتقاء "
         },
-    }
+    },
+    Helpers: {
+        GetLocal : function(val){
+            return val == "1" ? "en" : "ar";
+        },
+        GetOptions : function(option,locale){
+            return option[locale];
+        }
+    } 
 }
 
 bot.dialog("setLanguageWithPic",[
@@ -74,7 +84,7 @@ bot.dialog("setLanguageWithPic",[
        session.conversationData.lang = locale;
        session.preferredLocale(locale,function(err){
            if(!err){
-              session.send("welcomeText");
+              session.replaceDialog("identifyRole");
               session.endDialog();
            }
        });
@@ -87,7 +97,7 @@ bot.dialog("identifyRole",[
        program.Constants.StudentParentTeacher[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
     function(session,results){
-            session.endDialog();
+        session.endDialog();
     }
 ]);
 

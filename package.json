@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "botbuilder": "^3.8.4",
-    "restify": "^5.0.0"
+    "botbuilder": "^3.11.0",
+    "restify": "^5.2.0"
   },
   "devDependencies": {
     "request": "^2.81.0",
