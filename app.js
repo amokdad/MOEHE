@@ -35,11 +35,6 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-           
-            session.say('Please hold while I calculate a response.', 
-            'Please hold while I calculate a response.', 
-            { inputHint: builder.InputHint.ignoringInput }
-            );
 
             session.beginDialog("identifyRole");
         }
