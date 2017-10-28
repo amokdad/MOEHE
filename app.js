@@ -35,7 +35,6 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            session.send("English");
             session.beginDialog("identifyRole");
         }
      });
@@ -64,9 +63,13 @@ var bot = new builder.UniversalBot(connector,{
 var program = {
 
     Constants : {
-        StudentParentTeacher : {
+        QuestionOne : {
             en:"Student|Parent|Teacher|Nothing",
             ar:"طالب/طالبة|أهل|أستاذ/استاذة|لا أريد الإنتقاء "
+        },
+        QuestionTwo : {
+            en:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم/متابعة شكوى",
+            ar:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم/متابعة شكوى "
         },
     },
     Helpers: {
@@ -102,8 +105,7 @@ bot.dialog("setLanguageWithPic",[
        session.conversationData.lang = locale;
        session.preferredLocale(locale,function(err){
            if(!err){
-              session.replaceDialog("identifyRole");
-              session.endDialog();
+              session.replaceDialog("identifyRole");    
            }
        });
        
@@ -111,11 +113,23 @@ bot.dialog("setLanguageWithPic",[
 ])
 bot.dialog("identifyRole",[
     function(session){
-       builder.Prompts.choice(session, "identifyRoleText" ,
-       program.Constants.StudentParentTeacher[session.preferredLocale()],{listStyle: builder.ListStyle.button});
+       builder.Prompts.choice(session, "questionOne" ,
+       program.Constants.QuestionOne[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
     function(session,results){
-        session.endDialog();
+        session.dialogData.questionOne = results.response.entity;
+        builder.Prompts.choice(session, "questionTwo" ,
+        program.Constants.QuestionTwo[session.preferredLocale()],{listStyle: builder.ListStyle.button});
+    },
+    function(session,results){
+        session.dialogData.questionTwo = results.response.entity;
+        session.send("questionThree");
+    }
+    ,
+    function(session,results){
+        session.dialogData.questionThree = results.response.entity;
+        builder.Prompts.choice(session, "questionFour" ,
+        program.Constants.StudentParentTeacher[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     }
 ]);
 
