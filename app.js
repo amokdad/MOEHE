@@ -34,9 +34,10 @@ var ArabicRecognizers = {
 * ---------------------------------------------------------------------------------------- */
  
 // Create your bot with a function to receive messages from the user
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("You said: %s", session.message.text);
-    session.send("You said: %s", session.message.text);
+var bot = new builder.UniversalBot(connector,{
+    localizerSettings: { 
+        defaultLocale: "en" 
+    }   
 });
  
 var program = {
@@ -98,7 +99,6 @@ var intents = new builder.IntentDialog({ recognizers: [
     session.preferredLocale("en",function(err){
         if(!err){
             session.beginDialog("identifyRole");
-
         }
      });
 })
