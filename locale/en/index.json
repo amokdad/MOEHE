@@ -14,7 +14,7 @@
     "askForEmail" : "Hi, please let me know whats is your name",
     "greetingAgain" : "Hi again %s, how may i help you?",
     "greetingAsk" : "Hi %s, how may I help you today?",
-    "selectYourLanguage" : "Hi, I’m your personal assistant to answer questions about investment opportunities with Manateq.\n\nYou can ask me simple questions like “How can I invest with Manateq”, or “Do you provide business center?”, or similar questions.\n\nAt any time, you can ask to see the Main Menu by simply typing 'Main Menu' - \n\nالسلام عليكم، انا مساعدك الشخصي الآلي ويمكنك ان تسألني عن فرص الاستثمار مع مناطق.\n\nيمكنك طرح أسئلة بسيطة مثل ‘كيف يمكنني الاستثمار مع مناطق’ أو ‘هل توفر مركزا للأعمال’ أو ما شابه.\n\nبإمكانك الرجوع إلى قائمة عرض رئيسية عبر كتابة عبارة ‘اللائحة الرئيسية’.",
+    "selectYourLanguage" : "Hi, I’m your Personal Assistant and I’m here to answer your enquiries and help you browse our website content and easily find what you’re looking for \n\n Please choose your preferred language. \n\n At any time, you can return to the Main Menu by simply typing: Main Menu  - \n\n السلام عليكم، أنا مساعدك الشخصي. أنا هنا للإجابة على جميع أسئلتك ومساعدتك على تصفح محتوى موقعنا وإيجاد مبتغاك بسهولة تامة.\n\nيرجى إختيار لغة التواصل التي تفضلها.\n\nبإمكانك الرجوع إلى قائمة العرض الرئيسية عبر كتابة عبارة اللائحة الرئيسية",
     "getMobileNumber":"Great, May i have your mobile number",
     "selectoption" : "Please select from the below options",
     "getZones" :"Which zone are you more interested in?",
