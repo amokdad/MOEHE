@@ -28,7 +28,26 @@ var ArabicRecognizers = {
     arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /العربية/i), 
     englishRecognizer : new builder.RegExpRecognizer( "English", /English/i)
 }
- 
+var intents = new builder.IntentDialog({ recognizers: [    
+    ArabicRecognizers.arabicRecognizer,
+    ArabicRecognizers.englishRecognizer] 
+,recognizeOrder:"series"})
+.matches('English',(session, args) => {
+    session.preferredLocale("en",function(err){
+        if(!err){
+            session.send("English");
+            session.beginDialog("identifyRole");
+        }
+     });
+})
+
+.matches('Arabic',(session, args) => {
+    session.preferredLocale("ar",function(err){
+        if(!err){
+            session.beginDialog("identifyRole");
+        }
+     });
+})
 /*----------------------------------------------------------------------------------------
 * Bot Storage: This is a great spot to register the private state storage for your bot. 
 * We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
@@ -100,26 +119,7 @@ bot.dialog("identifyRole",[
     }
 ]);
 
-var intents = new builder.IntentDialog({ recognizers: [    
-    ArabicRecognizers.arabicRecognizer,
-    ArabicRecognizers.englishRecognizer] 
-,recognizeOrder:"series"})
-.matches('English',(session, args) => {
-    session.preferredLocale("en",function(err){
-        if(!err){
-            session.send("English");
-            session.beginDialog("identifyRole");
-        }
-     });
-})
 
-.matches('Arabic',(session, args) => {
-    session.preferredLocale("ar",function(err){
-        if(!err){
-            session.beginDialog("identifyRole");
-        }
-     });
-})
 
 
 
