@@ -25,8 +25,8 @@ var connector = new builder.ChatConnector({
 server.post('/api/messages', connector.listen());
 
 var ArabicRecognizers = {
-    arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /(العربية)/i), 
-    englishRecognizer : new builder.RegExpRecognizer( "English", /(English)/i)
+    arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /العربية/i), 
+    englishRecognizer : new builder.RegExpRecognizer( "English", /English/i)
 }
  
 /*----------------------------------------------------------------------------------------
@@ -77,8 +77,7 @@ bot.dialog("setLanguageWithPic",[
             ])
         ]);
         builder.Prompts.choice(session, msg, "العربية|English");
-    }
-    ,
+    },
     function(session,results){
        var locale = program.Helpers.GetLocal(results.response.index);
        session.conversationData.lang = locale;
