@@ -21,6 +21,11 @@ var connector = new builder.ChatConnector({
 
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
+
+var ArabicRecognizers = {
+    arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /(العربية)/i), 
+    englishRecognizer : new builder.RegExpRecognizer( "English", /(English)/i)
+}
  
 /*----------------------------------------------------------------------------------------
 * Bot Storage: This is a great spot to register the private state storage for your bot. 
@@ -34,6 +39,16 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send("You said: %s", session.message.text);
 });
 
+var program = {
+
+    Constants = {
+        StudentParentTeacher : {
+            en:"Student|Parent|Teacher|Nothing",
+            ar:"طالب/طالبة|أهل|أستاذ/استاذة|لا أريد الإنتقاء "
+        },
+    }
+}
+
 bot.dialog("setLanguageWithPic",[
     function(session){
         
@@ -42,7 +57,7 @@ bot.dialog("setLanguageWithPic",[
         var txt = session.localizer.gettext("en","selectYourLanguage");
         msg.attachments([
         new builder.HeroCard(session)
-            .title("Manateq")
+            .title("MOEHE")
             .text(txt)
             .images([builder.CardImage.create(session, "https://www.manateq.qa/Style%20Library/MTQ/Images/logo.png")])
             .buttons([
@@ -65,6 +80,38 @@ bot.dialog("setLanguageWithPic",[
        
     }
 ])
+bot.dialog("identifyRole",[
+    function(session){
+       builder.Prompts.choice(session, "identifyRoleText" ,
+       program.Constants.StudentParentTeacher[session.preferredLocale()],{listStyle: builder.ListStyle.button});
+    },
+    function(session,results){
+            session.endDialog();
+    }
+]);
+
+var intents = new builder.IntentDialog({ recognizers: [    
+    ArabicRecognizers.arabicRecognizer,
+    ArabicRecognizers.englishRecognizer] 
+,recognizeOrder:"series"})
+.matches('English',(session, args) => {
+    session.preferredLocale("en",function(err){
+        if(!err){
+            session.beginDialog("identifyRole");
+
+        }
+     });
+})
+
+.matches('Arabic',(session, args) => {
+    session.preferredLocale("ar",function(err){
+        if(!err){
+            session.beginDialog("identifyRole");
+        }
+     });
+})
+
+
 
 bot.on('conversationUpdate', function (activity) {  
     if (activity.membersAdded) {
