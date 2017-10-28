@@ -4,7 +4,7 @@ A simple echo bot for the Microsoft Bot Framework.
 
 var restify = require('restify');
 var builder = require('botbuilder');
-var calling = require('botbuilder-calling');
+
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -115,7 +115,6 @@ bot.dialog("setLanguageWithPic",[
 ])
 bot.dialog("identifyRole",[
     function(session){
-       calling.Prompts.record(session, "test", { playBeep: true });
        builder.Prompts.choice(session, "questionOne" ,
        program.Constants.QuestionOne[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
