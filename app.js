@@ -32,7 +32,7 @@ var ArabicRecognizers = {
 * We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
 * For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
 * ---------------------------------------------------------------------------------------- */
-
+ 
 // Create your bot with a function to receive messages from the user
 var bot = new builder.UniversalBot(connector, function (session) {
     session.send("You said: %s", session.message.text);
