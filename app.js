@@ -21,7 +21,7 @@ var connector = new builder.ChatConnector({
 
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
-
+ 
 /*----------------------------------------------------------------------------------------
 * Bot Storage: This is a great spot to register the private state storage for your bot. 
 * We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
@@ -33,3 +33,45 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send("You said: %s", session.message.text);
     session.send("You said: %s", session.message.text);
 });
+
+bot.dialog("setLanguageWithPic",[
+    function(session){
+        
+        var msg = new builder.Message(session);
+        msg.attachmentLayout(builder.AttachmentLayout.carousel);
+        var txt = session.localizer.gettext("en","selectYourLanguage");
+        msg.attachments([
+        new builder.HeroCard(session)
+            .title("Manateq")
+            .text(txt)
+            .images([builder.CardImage.create(session, "https://www.manateq.qa/Style%20Library/MTQ/Images/logo.png")])
+            .buttons([
+                builder.CardAction.imBack(session, "English", "English"),
+                builder.CardAction.imBack(session, "العربية", "العربية"),
+            ])
+        ]);
+        builder.Prompts.choice(session, msg, "العربية|English");
+    }
+    ,
+    function(session,results){
+       var locale = program.Helpers.GetLocal(results.response.index);
+       session.conversationData.lang = locale;
+       session.preferredLocale(locale,function(err){
+           if(!err){
+              session.send("welcomeText");
+              session.endDialog();
+           }
+       });
+       
+    }
+])
+
+bot.on('conversationUpdate', function (activity) {  
+    if (activity.membersAdded) {
+        activity.membersAdded.forEach((identity) => {
+            if (identity.id === activity.address.bot.id) {
+                   bot.beginDialog(activity.address, 'setLanguageWithPic');
+             }
+         });
+    }
+ });
