@@ -88,7 +88,7 @@
 
       // // Option 1: No speech
       //
-      // const speechOptions = null;
+       //const speechOptions = null;
 
       // // Option 2: Native browser speech (not supported by all browsers, no speech recognition priming support)
       //
@@ -96,6 +96,7 @@
       // or launch Chrome (close all the existing Chrome browsers) with the following option:
       // chrome.exe --allow-file-access-from-files <sampleHtmlFile>
       //
+      
       const speechOptions = {
          speechRecognizer: new BotChat.Speech.BrowserSpeechRecognizer(),
          speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
@@ -162,6 +163,8 @@
           webSocket: params['webSocket'] && params['webSocket'] === 'true' // defaults to true
         }
       }, document.getElementById('BotChatGoesHere'));
+
+
     </script>
   </body>
 </html>

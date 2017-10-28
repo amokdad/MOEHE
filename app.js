@@ -4,7 +4,8 @@ A simple echo bot for the Microsoft Bot Framework.
 
 var restify = require('restify');
 var builder = require('botbuilder');
- 
+var calling = require('botbuilder-calling');
+
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -35,11 +36,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            var msg = new builder.Message(session)
-            .speak('This is the text that will be spoken.')
-            .inputHint(builder.InputHint.acceptingInput);
-        session.send(msg).endDialog();
-        
+            
             session.beginDialog("identifyRole");
         }
      });
@@ -118,6 +115,7 @@ bot.dialog("setLanguageWithPic",[
 ])
 bot.dialog("identifyRole",[
     function(session){
+       calling.Prompts.record(session, "test", { playBeep: true });
        builder.Prompts.choice(session, "questionOne" ,
        program.Constants.QuestionOne[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
