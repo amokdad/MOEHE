@@ -78,7 +78,7 @@ var program = {
         }
     } 
 }
-
+bot.dialog("/",intents);
 bot.dialog("setLanguageWithPic",[
     function(session){
         
