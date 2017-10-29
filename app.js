@@ -4,6 +4,7 @@ A simple echo bot for the Microsoft Bot Framework.
 
 var restify = require('restify');
 var builder = require('botbuilder');
+var Promise = require('bluebird');
 
 
 // Setup Restify Server
