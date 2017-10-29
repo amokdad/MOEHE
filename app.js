@@ -37,6 +37,8 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
+            session.send('dsa');
+            
             session.send(session.message.attachments.length);
          
         }
@@ -84,7 +86,18 @@ var program = {
         }
     } 
 }
-bot.dialog("/",intents);
+//bot.dialog("/",intents);
+
+bot.dialog('/', [
+    function (session) {
+        session.message.attachments[0].contentUrl;
+       session.send('dsadsasa');
+    },
+    function (session, results) {
+        
+    }
+]);
+
 bot.dialog("setLanguageWithPic",[
     function(session){
         
