@@ -37,7 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            var msg = session.message;
+           /* var msg = session.message;
             if (msg.attachments.length) {
         
                 // Message with attachment, proceed to download it.
@@ -58,7 +58,7 @@ var intents = new builder.IntentDialog({ recognizers: [
                     }).catch(function (err) {
                         console.log('Error downloading attachment:', { statusCode: err.statusCode, message: err.response.statusMessage });
                     });
-            }
+            }*/
             //session.beginDialog("identifyRole");
         }
      });
