@@ -37,17 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            session.send("dsasda");
-          var msg = session.message;
-            if (msg.attachments.length) {
-        
-                // Message with attachment, proceed to download it.
-                // Skype & MS Teams attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
-                var attachment = msg.attachments[0];
-                session.send(attachment.contentUrl);
-                  
-            }
-            //session.beginDialog("identifyRole");
+            session.send(session.message.attachments[0].contentUrl);
         }
      });
 })
