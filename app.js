@@ -37,6 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
+            session.send("dsasda");
            /* var msg = session.message;
             if (msg.attachments.length) {
         
@@ -159,7 +160,7 @@ bot.dialog("identifyRole",[
 
 
 // Helper methods
-
+/*
 // Request file with Authentication Header
 var requestWithToken = function (url) {
     return obtainToken().then(function (token) {
@@ -179,7 +180,7 @@ var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
 var checkRequiresToken = function (message) {
     return message.source === 'skype' || message.source === 'msteams';
 };
-
+*/
 /*
 bot.on('conversationUpdate', function (activity) {  
     if (activity.membersAdded) {
