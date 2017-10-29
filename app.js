@@ -90,8 +90,8 @@ var program = {
 
 bot.dialog('/', [
     function (session) {
-        session.message.attachments[0].contentUrl;
-       session.send('dsadsasa');
+        session.send(session.message.attachments[0].contentUrl);
+       //session.send('dsadsasa');
     },
     function (session, results) {
         
