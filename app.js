@@ -138,7 +138,7 @@ bot.dialog("identifyRole",[
 
 
 
-
+/*
 bot.on('conversationUpdate', function (activity) {  
     if (activity.membersAdded) {
         activity.membersAdded.forEach((identity) => {
@@ -148,3 +148,5 @@ bot.on('conversationUpdate', function (activity) {
          });
     }
  });
+
+ */ 
