@@ -38,28 +38,15 @@ var intents = new builder.IntentDialog({ recognizers: [
     session.preferredLocale("en",function(err){
         if(!err){
             session.send("dsasda");
-           /* var msg = session.message;
+          var msg = session.message;
             if (msg.attachments.length) {
         
                 // Message with attachment, proceed to download it.
                 // Skype & MS Teams attachment URLs are secured by a JwtToken, so we need to pass the token from our bot.
                 var attachment = msg.attachments[0];
-                var fileDownload = checkRequiresToken(msg)
-                    ? requestWithToken(attachment.contentUrl)
-                    : request(attachment.contentUrl);
-        
-                fileDownload.then(
-                    function (response) {
-        
-                        // Send reply with attachment type & size
-                        var reply = new builder.Message(session)
-                            .text('Attachment of %s type and size of %s bytes received.', attachment.contentType, response.length);
-                        session.send(reply);
-        
-                    }).catch(function (err) {
-                        console.log('Error downloading attachment:', { statusCode: err.statusCode, message: err.response.statusMessage });
-                    });
-            }*/
+                session.send(attachment.contentUrl);
+                  
+            }
             //session.beginDialog("identifyRole");
         }
      });
