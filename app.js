@@ -37,7 +37,8 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            session.send(session.message.attachments[0].contentUrl);
+            session.send(session.message.attachments.length);
+         
         }
      });
 })
