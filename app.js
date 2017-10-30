@@ -37,10 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            session.send('dsa');
-            
-            session.send(session.message.attachments.length);
-         
+            session.beginDialog("askQuestions");
         }
      });
 })
@@ -86,13 +83,9 @@ var program = {
         }
     } 
 }
-//bot.dialog("/",intents);
+bot.dialog("/",intents);
 
-bot.dialog('/', [
-    function (session) {
-        session.beginDialog("askQuestions");
-    }
-]);
+
 
 bot.dialog("askQuestions",[
     function(session){
