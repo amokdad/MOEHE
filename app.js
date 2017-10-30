@@ -89,18 +89,18 @@ bot.dialog("/",intents);
 
 bot.dialog("askQuestions",[
     function(session){
-       session.send("what is your name");
+        builder.Prompts.text(session,"what is your name");
     },
     function(session,results){
         
-        session.send('how can i help you');
+        builder.Prompts.text(session,'how can i help you');
     },
     function(session,results){
-        session.send('OK');
+        builder.Prompts.text(session,'OK');
     }
     ,
     function(session,results){
-        session.send('Dine');
+        builder.Prompts.text(session,'Dine');
     }
 ]);
 
