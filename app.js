@@ -90,12 +90,16 @@ var program = {
 
 bot.dialog('/', [
     function (session) {
-        session.send(JSON.stringify(session.message));
+        session.send('Hi');
+        //session.send(JSON.stringify(session.message));
         //session.send(session.message.attachments[0].contentUrl);
        //session.send('dsadsasa');
     },
     function (session, results) {
-        
+        session.send('Welcome ' + session.message);
+    },
+    function (session, results) {
+        session.send('Bye');
     }
 ]);
 
