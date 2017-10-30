@@ -37,7 +37,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            session.beginDialog("identifyRole");
+            session.beginDialog("askQuestions");
         }
      });
 })
