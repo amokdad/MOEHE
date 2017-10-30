@@ -90,7 +90,7 @@ var program = {
 
 bot.dialog('/', [
     function (session) {
-        session.replaceDialog("askQuestions");
+        session.beginDialog("askQuestions");
     }
 ]);
 
