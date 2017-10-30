@@ -90,16 +90,24 @@ var program = {
 
 bot.dialog('/', [
     function (session) {
-        session.send('Hi');
-        //session.send(JSON.stringify(session.message));
-        //session.send(session.message.attachments[0].contentUrl);
-       //session.send('dsadsasa');
+        session.replaceDialog("askQuestions");
+    }
+]);
+
+bot.dialog("askQuestions",[
+    function(session){
+       session.send("what is your name");
     },
-    function (session, results) {
-        session.send('Welcome ' + session.message);
+    function(session,results){
+        
+        session.send('how can i help you');
     },
-    function (session, results) {
-        session.send('Bye');
+    function(session,results){
+        session.send('OK');
+    }
+    ,
+    function(session,results){
+        session.send('Dine');
     }
 ]);
 
