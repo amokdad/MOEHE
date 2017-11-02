@@ -65,6 +65,8 @@
     </section>
 
     <div id="BotChatGoesHere"></div>
+    <button onclick="postButtonMessage()" style="height: 60px; margin-left: 80px; margin-top: 20px; padding: 20px; width: 120px;">Click Me!</button>
+    
 
     <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
 
@@ -73,98 +75,51 @@
 
     <script>
       const params = BotChat.queryParams(location.search);
-
       const user = {
         id: params['userid'] || 'userid',
         name: params['username'] || 'username'
       };
-
       const bot = {
         id: params['botid'] || 'botid',
         name: params['botname'] || 'botname'
       };
-
-      window.botchatDebug = params['debug'] && params['debug'] === 'true';
-
-      // // Option 1: No speech
-      //
-       //const speechOptions = null;
-
-      // // Option 2: Native browser speech (not supported by all browsers, no speech recognition priming support)
-      //
-      // Note that Chrome automatically blocks speech if the HTML file is loaded from disk. You can run a server locally
-      // or launch Chrome (close all the existing Chrome browsers) with the following option:
-      // chrome.exe --allow-file-access-from-files <sampleHtmlFile>
-      //
-      
-      const speechOptions = {
-         speechRecognizer: new BotChat.Speech.BrowserSpeechRecognizer(),
-         speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
-      };
-
-      // // Option 3: Cognitive Services speech recognition using API key (cross browser, speech priming support)
-      //
-      /*
-      const speechOptions = {
-        speechRecognizer: new CognitiveServices.SpeechRecognizer({ subscriptionKey: 'YOUR_COGNITIVE_SPEECH_API_KEY' }),
-        speechSynthesizer: new CognitiveServices.SpeechSynthesizer({
-          gender: CognitiveServices.SynthesisGender.Female,
-          subscriptionKey: 'YOUR_COGNITIVE_SPEECH_API_KEY',
-          voiceName: 'Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)'
-        })
-      };
-      */
-      //
-
-      // // Option 4: Cognitive Services speech recognition using a token (usually generated in a secure backend using your API key)
-      //
-      // function getToken() {
-      //   // Normally this token fetch is done from your secured backend to avoid exposing the API key and this call
-      //   // would be to your backend, or to retrieve a token that was served as part of the original page.
-
-      //   return fetch(
-      //     'https://api.cognitive.microsoft.com/sts/v1.0/issueToken',
-      //     {
-      //       headers: {
-      //         'Ocp-Apim-Subscription-Key': 'YOUR_COGNITIVE_SPEECH_API_KEY'
-      //       },
-      //       method: 'POST'
-      //     }
-      //   ).then(res => res.text());
-      // }
-
-      // const speechOptions = {
-      //   speechRecognizer: new CognitiveServices.SpeechRecognizer({
-      //     fetchCallback: (authFetchEventId) => getToken(),
-      //     fetchOnExpiryCallback: (authFetchEventId) => getToken()
-      //   }),
-      //   speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
-      // };
-
-      // // Option 5: Your own custom implementations of ISpeechRecognizer and ISpeechSynthesizer
-      //
-      // const speechOptions = {
-      //   speechRecognizer: new YourOwnSpeechRecognizer(),
-      //   speechSynthesizer: new YourOwnSpeechSynthesizer()
-      // };
-
+      window['botchatDebug'] = params['debug'] && params['debug'] === 'true';
+      const botConnection = new BotChat.DirectLine({
+        domain: params['domain'],
+        secret: 'iFtUxx04TSg.cwA.DlU.1gdjZSm7Ca-ul61Afk2ljiUCiMRFKLEP1zzS0HJRN2M',
+        token: 'iFtUxx04TSg.dAA.RgBCAG4ARgBEAGsAeQBkAFAAaAAxAEgAaQBrAFQAVwB1AHYAYgBWADQASAA.BM79TudP0wE.Nc2VEE51VlM.c6nw-DxEtzOAgqS7JJ1CuXm9adyC4e65q42wbjtmhL8',
+        webSocket: params['webSocket'] && params['webSocket'] === 'true' // defaults to true
+      });
       BotChat.App({
         bot: bot,
-        locale: params['locale'],
-        resize: 'detect',
-        // sendTyping: true,    // defaults to false. set to true to send 'typing' activities to bot (and other users) when user is typing
-        speechOptions: speechOptions,
-        user: user,
-
-        directLine: {
-          domain: params['domain'],
-          secret: 'iFtUxx04TSg.cwA.DlU.1gdjZSm7Ca-ul61Afk2ljiUCiMRFKLEP1zzS0HJRN2M',
-          token: 'iFtUxx04TSg.dAA.RgBCAG4ARgBEAGsAeQBkAFAAaAAxAEgAaQBrAFQAVwB1AHYAYgBWADQASAA.BM79TudP0wE.Nc2VEE51VlM.c6nw-DxEtzOAgqS7JJ1CuXm9adyC4e65q42wbjtmhL8',
-          webSocket: params['webSocket'] && params['webSocket'] === 'true' // defaults to true
-        }
+        botConnection: botConnection,
+        user: user
       }, document.getElementById('BotChatGoesHere'));
 
-
+      botConnection.activity$
+        .filter(function (activity) {
+          return activity.type === 'event' && activity.name === 'changeBackground';
+        })
+        .subscribe(function (activity) {
+          console.log('"changeBackground" received with value: ' + activity.value);
+          changeBackgroundColor(activity.value);
+        });
+      function changeBackgroundColor(newColor) {
+        document.body.style.backgroundColor = newColor;
+      }
+      function postButtonMessage() {
+        botConnection
+          .postActivity({
+            from: { id: 'me' },
+            name: 'buttonClicked',
+            type: 'event',
+            value: ''
+          })
+          .subscribe(function (id) {
+            console.log('"buttonClicked" sent');
+          });
+      };
     </script>
+
   </body>
 </html>

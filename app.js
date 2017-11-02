@@ -84,7 +84,13 @@ var program = {
         }
     } 
 }
-bot.dialog("/",intents);
+
+bot.dialog('/', [
+    function (session) {
+        var reply = createEvent("changeBackground", session.message.text, session.message.address);
+        session.endDialog(reply);
+    }
+]);
 
 
 
@@ -156,7 +162,22 @@ bot.dialog("identifyRole",[
     }
 ]);
 
+bot.on("event", function (event) {
+    var msg = new builder.Message().address(event.address);
+    msg.data.textLocale = "en-us";
+    if (event.name === "buttonClicked") {
+        msg.data.text = "I see that you clicked a button.";
+    }
+    bot.send(msg);
+})
 
+const createEvent = (eventName, value, address) => {
+    var msg = new builder.Message().address(address);
+    msg.data.type = "event";
+    msg.data.name = eventName;
+    msg.data.value = value;
+    return msg;
+}
 // Helper methods
 /*
 // Request file with Authentication Header
