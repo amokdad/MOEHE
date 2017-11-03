@@ -28,11 +28,11 @@ var connector = new builder.ChatConnector({
 function createRecord(name,role,service,mobile,recording){
 
     var complaint = {
-        Role: role,
-        Service: service,
-        Name: name,
-        Mobile: mobile,
-        Recording:recording
+        Role: 'role',
+        Service: 'service',
+        Name: 'name',
+        Mobile: 'mobile',
+        Recording:'recordingss'
     };
 
     var extServerOptionsPost = {
