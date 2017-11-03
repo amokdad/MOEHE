@@ -128,10 +128,10 @@ bot.dialog('/', intents);
 bot.dialog("askQuestions",[
     function(session){
         builder.Prompts.text(session,'what is your name');
-        createRecord(session.message);
+        
     },
     function(session,results){
-        
+        createRecord(session.message);
         builder.Prompts.text(session,'how old are you');
     },
     function(session,results){
