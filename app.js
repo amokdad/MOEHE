@@ -32,14 +32,14 @@ function createRecord(name,role,service,mobile,recording){
         Service: 'service',
         Name: 'name',
         Mobile: 'mobile',
-        Recording:'recordingsssda'
+        Recording:'recordingsssdaee'
     };
 
     var extServerOptionsPost = {
-        host: 'complaintwav1.azurewebsites.net',
-        port: '80',
-        //host:'localhost',
-        //port:'50601',
+        //host: 'complaintwav1.azurewebsites.net',
+        //port: '80',
+        host: 'localhost',
+        port: '50601',
         path: '/api/Complaints/PostComplaints',
         method: 'POST',
         headers: {
@@ -49,6 +49,7 @@ function createRecord(name,role,service,mobile,recording){
 
     var reqPost = http.request(extServerOptionsPost, function (res) {
         console.log("response statusCode: ", res.statusCode);
+        console.log(res);
         res.on('data', function (data) {
             process.stdout.write(data);
         });
@@ -58,6 +59,7 @@ function createRecord(name,role,service,mobile,recording){
     reqPost.write(JSON.stringify(complaint));
     reqPost.end();
     reqPost.on('error', function (e) {
+        console.log('s');
         console.log(e);
     });
 
