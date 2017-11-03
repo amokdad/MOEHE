@@ -26,15 +26,17 @@ var connector = new builder.ChatConnector({
     openIdMetadata: process.env.BotOpenIdMetadata 
 });
 
-function createRecord(name,role,service,mobile,recording){
+function createRecord(complaint){
 
+    /*
     var complaint = {
         Role: role,
         Service: service,
         Name: name,
         Mobile:mobile,
         Recording:recordingsssdaee
-    };
+    };*/
+
     request.post({
         headers: {'content-type' : 'application/json'},
         url:     'http://complaintwav1.azurewebsites.net/api/Complaints/PostComplaints',
@@ -131,7 +133,15 @@ bot.dialog("askQuestions",[
     },
     function(session,results){
         session.conversationData.mobile = session.message.text;
-        var reply = createEvent("startRecording", session.message.text, session.message.address);
+
+        var user =  {Role: session.conversationData.name,
+        Service: session.conversationData.role,
+        Name: session.conversationData.service,
+        Mobile:session.conversationData.mobile
+    }
+       
+
+        var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
         session.send(reply);
     }
 ]);
@@ -193,11 +203,8 @@ bot.on("event", function (event) {
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
-    createRecord(session.conversationData.name,
-        session.conversationData.role,
-        session.conversationData.service,
-        session.conversationData.mobile,
-        event.value);
+    createRecord(JSON.parse(event.value));
+
     bot.send(msg);
 
 
