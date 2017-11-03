@@ -144,7 +144,7 @@ bot.dialog("askQuestions",[
     },
     function(session,results){
         session.conversationData.mobile = session.message.text;
-        builder.Prompts.text(session,'recording');
+        
         var reply = createEvent("startRecording", session.message.text, session.message.address);
         session.send(reply);
     }
@@ -207,6 +207,7 @@ bot.on("event", function (event) {
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
+
     createRecord(session.conversationData.name,
         session.conversationData.role,
         session.conversationData.service,
