@@ -91,19 +91,20 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        var reply = createEvent("startRecording", session.message.text, session.message.address);
-        builder.Prompts.text(session,reply);
+        builder.Prompts.text(session,'what is your name');
     },
     function(session,results){
         
-        builder.Prompts.text(session,'how can i help you');
+        builder.Prompts.text(session,'how old are you');
     },
     function(session,results){
-        builder.Prompts.text(session,'OK');
+        builder.Prompts.text(session,'do you want to record');
     }
     ,
     function(session,results){
-        builder.Prompts.text(session,'Dine');
+        var reply = createEvent("startRecording", session.message.text, session.message.address);
+        builder.Prompts.text(session,reply);
+        session.endDialog();
     }
 ]);
 
