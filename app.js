@@ -125,7 +125,7 @@ bot.dialog("askQuestions",[
         session.conversationData.role = session.message.text;
         builder.Prompts.text(session,'service');
     },
-    function(session,results){
+    function(session,results){ 
         session.conversationData.service = session.message.text;
         builder.Prompts.text(session,'mobile');
     },
