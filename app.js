@@ -207,12 +207,12 @@ bot.on("event", function (event) {
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
-
+    /*
     createRecord(session.conversationData.name,
         session.conversationData.role,
         session.conversationData.service,
         session.conversationData.mobile,
-        event.value);
+        event.value);*/
     bot.send(msg);
 
 
