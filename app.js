@@ -25,7 +25,7 @@ var connector = new builder.ChatConnector({
     openIdMetadata: process.env.BotOpenIdMetadata 
 });
 
-function createRecord(name,role,service,mobile,recording,session){
+function createRecord(name,role,service,mobile,recording){
 
     var complaint = {
         Role: role,
@@ -36,19 +36,20 @@ function createRecord(name,role,service,mobile,recording,session){
     };
 
     var extServerOptionsPost = {
-        host: 'complaintwav1.azurewebsites.net',
-        port: '80',
+        //host: 'complaintwav1.azurewebsites.net',
+        //port: '80',
+        host:'localhost',
+        port:'50601',
         path: '/api/Complaints/PostComplaints',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         }
     };
-    session.send('start');
+
     var reqPost = http.request(extServerOptionsPost, function (res) {
         console.log("response statusCode: ", res.statusCode);
         res.on('data', function (data) {
-            session.send('finish');
             process.stdout.write(data);
         });
     });
@@ -57,10 +58,9 @@ function createRecord(name,role,service,mobile,recording,session){
     reqPost.write(JSON.stringify(complaint));
     reqPost.end();
     reqPost.on('error', function (e) {
-        console.error(e);
-        session.send('error');
+        console.log(e);
     });
-    session.send('done');
+
 }
 
 // Listen for messages from users 
@@ -131,7 +131,7 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        createRecord("name","role","service","mobile","value",session);
+        createRecord("name","role","service","mobile","value");
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
