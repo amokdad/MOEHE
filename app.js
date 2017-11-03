@@ -4,6 +4,8 @@ A simple echo bot for the Microsoft Bot Framework.
 
 var restify = require('restify');
 var builder = require('botbuilder');
+var http = require('http');
+
 //var Promise = require('bluebird');
 
 
@@ -23,6 +25,40 @@ var connector = new builder.ChatConnector({
     openIdMetadata: process.env.BotOpenIdMetadata 
 });
 
+function createRecord(name){
+
+    var complaint = {
+        Role: "Role",
+        Service: "Service",
+        Name: name,
+        Mobile: "Mobile"
+    };
+
+    var extServerOptionsPost = {
+        host: 'localhost',
+        port: '50601',
+        path: '/api/Complaints/PostComplaints',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    var reqPost = http.request(extServerOptionsPost, function (res) {
+        console.log("response statusCode: ", res.statusCode);
+        res.on('data', function (data) {
+            process.stdout.write(data);
+        });
+    });
+     
+    // 7
+    reqPost.write(JSON.stringify(complaint));
+    reqPost.end();
+    reqPost.on('error', function (e) {
+        console.error(e);
+    });
+}
+
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
 
@@ -37,7 +73,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-
+            
             session.beginDialog("askQuestions");
         }
      });
@@ -92,6 +128,7 @@ bot.dialog('/', intents);
 bot.dialog("askQuestions",[
     function(session){
         builder.Prompts.text(session,'what is your name');
+        createRecord(session.message);
     },
     function(session,results){
         
