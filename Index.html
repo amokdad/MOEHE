@@ -65,7 +65,7 @@
     </section>
 
     <div id="BotChatGoesHere"></div>
-    <button onclick="postButtonMessage()" style="height: 60px; margin-left: 80px; margin-top: 20px; padding: 20px; width: 120px;">Click Me!</button>
+    <button onclick="postButtonMessage()">Click Me!</button>
     
 
     <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
@@ -78,7 +78,7 @@
       const user = {
         id: params['userid'] || 'userid',
         name: params['username'] || 'username'
-      };
+      };  
       const bot = {
         id: params['botid'] || 'botid',
         name: params['botname'] || 'botname'
@@ -104,9 +104,11 @@
           console.log('"changeBackground" received with value: ' + activity.value);
           changeBackgroundColor(activity.value);
         });
+
       function changeBackgroundColor(newColor) {
         document.body.style.backgroundColor = newColor;
       }
+
       function postButtonMessage() {
         botConnection
           .postActivity({
@@ -120,6 +122,7 @@
           });
       };
     </script>
+
 
   </body>
 </html>

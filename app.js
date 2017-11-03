@@ -1,4 +1,4 @@
-/*-----------------------------------------------------------------------------
+    /*-----------------------------------------------------------------------------
 A simple echo bot for the Microsoft Bot Framework. 
 -----------------------------------------------------------------------------*/
 
@@ -165,8 +165,8 @@ bot.dialog("identifyRole",[
 bot.on("event", function (event) {
     var msg = new builder.Message().address(event.address);
     msg.data.textLocale = "en-us";
-    if (event.name === "buttonClicked") {
-        msg.data.text = "I see that you clicked a button.";
+    if (event.name === "complaintRecorded") {
+        msg.data.text = "We got your complaint recording";
     }
     bot.send(msg);
 })
