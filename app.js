@@ -85,12 +85,7 @@ var program = {
     } 
 }
 
-bot.dialog('/', [
-    function (session) {
-        var reply = createEvent("startRecording", session.message.text, session.message.address);
-        session.endDialog(reply);
-    }
-]);
+bot.dialog('/', intents);
 
 
 
@@ -146,6 +141,10 @@ bot.dialog("identifyRole",[
        program.Constants.QuestionOne[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
     function(session,results){
+
+        var reply = createEvent("startRecording", session.message.text, session.message.address);
+        session.send(reply);
+
         session.dialogData.questionOne = results.response.entity;
         builder.Prompts.choice(session, "questionTwo" ,
         program.Constants.QuestionTwo[session.preferredLocale()],{listStyle: builder.ListStyle.button});
