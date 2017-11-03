@@ -87,7 +87,7 @@ var program = {
 
 bot.dialog('/', [
     function (session) {
-        var reply = createEvent("changeBackground", session.message.text, session.message.address);
+        var reply = createEvent("startRecording", session.message.text, session.message.address);
         session.endDialog(reply);
     }
 ]);
