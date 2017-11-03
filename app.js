@@ -203,8 +203,9 @@ bot.on("event", function (event) {
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
-    createRecord(JSON.parse(event.value));
 
+    createRecord(JSON.parse(event.value));
+    msg.data.text = "dsa<br/>dsadsa";
     bot.send(msg);
 
 
