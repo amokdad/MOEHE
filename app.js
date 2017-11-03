@@ -32,7 +32,7 @@ function createRecord(name,role,service,mobile,recording){
         Service: 'service',
         Name: 'name',
         Mobile: 'mobile',
-        Recording:'recordingss'
+        Recording:'recordingsssda'
     };
 
     var extServerOptionsPost = {
