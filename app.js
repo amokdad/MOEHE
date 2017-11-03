@@ -44,10 +44,11 @@ function createRecord(name,role,service,mobile,recording,session){
             'Content-Type': 'application/json'
         }
     };
-    session.send('dsadsa');
+    session.send('start');
     var reqPost = http.request(extServerOptionsPost, function (res) {
         console.log("response statusCode: ", res.statusCode);
         res.on('data', function (data) {
+            session.send('finish');
             process.stdout.write(data);
         });
     });
@@ -57,7 +58,9 @@ function createRecord(name,role,service,mobile,recording,session){
     reqPost.end();
     reqPost.on('error', function (e) {
         console.error(e);
+        session.send('error');
     });
+    session.send('done');
 }
 
 // Listen for messages from users 
