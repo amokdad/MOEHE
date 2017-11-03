@@ -91,7 +91,8 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        builder.Prompts.text(session,"what is your name");
+        var reply = createEvent("startRecording", session.message.text, session.message.address);
+        builder.Prompts.text(session,reply);
     },
     function(session,results){
         
@@ -141,10 +142,6 @@ bot.dialog("identifyRole",[
        program.Constants.QuestionOne[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
     function(session,results){
-
-        var reply = createEvent("startRecording", session.message.text, session.message.address);
-        session.send(reply);
-
         session.dialogData.questionOne = results.response.entity;
         builder.Prompts.choice(session, "questionTwo" ,
         program.Constants.QuestionTwo[session.preferredLocale()],{listStyle: builder.ListStyle.button});
