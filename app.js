@@ -36,10 +36,10 @@ function createRecord(name,role,service,mobile,recording){
     };
 
     var extServerOptionsPost = {
-        //host: 'complaintwav1.azurewebsites.net',
-        //port: '80',
-        host:'localhost',
-        port:'50601',
+        host: 'complaintwav1.azurewebsites.net',
+        port: '80',
+        //host:'localhost',
+        //port:'50601',
         path: '/api/Complaints/PostComplaints',
         method: 'POST',
         headers: {
