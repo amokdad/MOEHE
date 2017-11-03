@@ -116,20 +116,18 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        //createRecord("name","role","service","mobile","value");
-
-        var card = builder.AudioCard(session)
-        .title('I am your father')
-        .subtitle('Star Wars: Episode V - The Empire Strikes Back')
-        .text('The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back) is a 1980 American epic space opera film directed by Irvin Kershner. Leigh Brackett and Lawrence Kasdan wrote the screenplay, with George Lucas writing the film\'s story and serving as executive producer. The second installment in the original Star Wars trilogy, it was produced by Gary Kurtz for Lucasfilm Ltd. and stars Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams, Anthony Daniels, David Prowse, Kenny Baker, Peter Mayhew and Frank Oz.')
-           .media([
-            { url: 'http://www.wavlist.com/movies/004/father.wav' }
-        ])
-    
-            // attach the card to the reply message
-        var msg = new builder.Message(session).addAttachment(card);
-        bot.send(msg);
-    
+        
+        /*
+        var msg = new builder.Message(session);
+        msg.attachmentLayout(builder.AttachmentLayout.carousel)
+        msg.attachments([
+            new builder.AudioCard(session)
+                .title("Classic White T-Shirt")
+                .subtitle("100% Soft and Luxurious Cotton")
+                .text("Price is $25 and carried in sizes (S, M, L, and XL)")
+        ]);
+        session.send(msg).endDialog();
+    */
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
@@ -212,7 +210,7 @@ bot.dialog("identifyRole",[
 
 bot.on("event", function (event) {
     
-    /*var msg = new builder.Message().address(event.address);
+    var msg = new builder.Message().address(event.address);
     event.ses
     msg.data.textLocale = "en-us";
     if (event.name === "complaintRecorded") {
@@ -220,9 +218,9 @@ bot.on("event", function (event) {
     }
 
     createRecord(JSON.parse(event.value));
-    msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
-    msg.data.type=
-    bot.send(msg);*/
+    //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
+    msg.data.text = "Thanks";
+    bot.send(msg);
 
 
 })
