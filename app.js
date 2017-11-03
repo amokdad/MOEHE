@@ -25,13 +25,14 @@ var connector = new builder.ChatConnector({
     openIdMetadata: process.env.BotOpenIdMetadata 
 });
 
-function createRecord(name){
+function createRecord(name,role,service,mobile,recording){
 
     var complaint = {
-        Role: "Role",
-        Service: "Service",
+        Role: role,
+        Service: service,
         Name: name,
-        Mobile: "Mobile"
+        Mobile: mobile,
+        Recording:recording
     };
 
     var extServerOptionsPost = {
@@ -127,20 +128,25 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        builder.Prompts.text(session,'what is your name');
-        
+        builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
-        createRecord(session.message);
-        builder.Prompts.text(session,'how old are you');
+        session.conversationData.name = session.message.text;
+        builder.Prompts.text(session,'role');
     },
     function(session,results){
-        builder.Prompts.text(session,'do you want to record');
+        session.conversationData.role = session.message.text;
+        builder.Prompts.text(session,'service');
     },
     function(session,results){
+        session.conversationData.service = session.message.text;
+        builder.Prompts.text(session,'mobile');
+    },
+    function(session,results){
+        session.conversationData.mobile = session.message.text;
+        builder.Prompts.text(session,'recording');
         var reply = createEvent("startRecording", session.message.text, session.message.address);
-        builder.Prompts.text(session,reply);
-        session.endDialog();
+        session.send(reply);
     }
 ]);
 
@@ -201,7 +207,14 @@ bot.on("event", function (event) {
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
+    createRecord(session.conversationData.name,
+        session.conversationData.role,
+        session.conversationData.service,
+        session.conversationData.mobile,
+        event.value);
     bot.send(msg);
+
+
 })
 
 const createEvent = (eventName, value, address) => {
