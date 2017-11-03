@@ -99,8 +99,7 @@ bot.dialog("askQuestions",[
     },
     function(session,results){
         builder.Prompts.text(session,'do you want to record');
-    }
-    ,
+    },
     function(session,results){
         var reply = createEvent("startRecording", session.message.text, session.message.address);
         builder.Prompts.text(session,reply);
