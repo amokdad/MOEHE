@@ -144,9 +144,11 @@ bot.dialog("askQuestions",[
     },
     function(session,results){
         session.conversationData.mobile = session.message.text;
-        
-        var reply = createEvent("startRecording", session.message.text, session.message.address);
-        session.send(reply);
+
+        createRecord("name","role","service","mobile","value");
+
+        //var reply = createEvent("startRecording", session.message.text, session.message.address);
+        //session.send(reply);
     }
 ]);
 
