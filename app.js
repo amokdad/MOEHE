@@ -5,6 +5,7 @@ A simple echo bot for the Microsoft Bot Framework.
 var restify = require('restify');
 var builder = require('botbuilder');
 var http = require('http');
+var request = require('request');
 
 //var Promise = require('bluebird');
 
@@ -28,40 +29,20 @@ var connector = new builder.ChatConnector({
 function createRecord(name,role,service,mobile,recording){
 
     var complaint = {
-        Role: 'role',
-        Service: 'service',
-        Name: 'name',
-        Mobile: 'mobile',
-        Recording:'recordingsssdaee'
+        Role: role,
+        Service: service,
+        Name: name,
+        Mobile:mobile,
+        Recording:recordingsssdaee
     };
-
-    var extServerOptionsPost = {
-        host: 'complaintwav1.azurewebsites.net',
-        port: '80',
-        //host: 'localhost',
-        //port: '50601',
-        path: '/api/Complaints/PostComplaints',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-
-    var reqPost = http.request(extServerOptionsPost, function (res) {
-        console.log("response statusCode: ", res.statusCode);
-        //console.log(res);
-        res.on('data', function (data) {
-            process.stdout.write(data);
-        });
-    });
-     
-    // 7
-    reqPost.write(JSON.stringify(complaint));
-    reqPost.end();
-    reqPost.on('error', function (e) {
-        console.log('s');
-        console.log(e);
-    });
+    request.post({
+        headers: {'content-type' : 'application/json'},
+        url:     'http://complaintwav1.azurewebsites.net/api/Complaints/PostComplaints',
+        body:    JSON.stringify(complaint)
+      }, function(error, response, body){
+            console.log(JSON.stringify(body));
+      });
+   
 
 }
 
@@ -133,7 +114,7 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        createRecord("name","role","service","mobile","value");
+        //createRecord("name","role","service","mobile","value");
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
@@ -150,11 +131,8 @@ bot.dialog("askQuestions",[
     },
     function(session,results){
         session.conversationData.mobile = session.message.text;
-
-        createRecord("name","role","service","mobile","value");
-
-        //var reply = createEvent("startRecording", session.message.text, session.message.address);
-        //session.send(reply);
+        var reply = createEvent("startRecording", session.message.text, session.message.address);
+        session.send(reply);
     }
 ]);
 
@@ -215,12 +193,11 @@ bot.on("event", function (event) {
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
-    /*
     createRecord(session.conversationData.name,
         session.conversationData.role,
         session.conversationData.service,
         session.conversationData.mobile,
-        event.value);*/
+        event.value);
     bot.send(msg);
 
 
