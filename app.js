@@ -205,7 +205,7 @@ bot.on("event", function (event) {
     }
 
     createRecord(JSON.parse(event.value));
-    msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).Recording + "' type='audio/wav'></audio>";
+    msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
     bot.send(msg);
 
 
