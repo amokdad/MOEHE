@@ -25,7 +25,7 @@ var connector = new builder.ChatConnector({
     openIdMetadata: process.env.BotOpenIdMetadata 
 });
 
-function createRecord(name,role,service,mobile,recording){
+function createRecord(name,role,service,mobile,recording,session){
 
     var complaint = {
         Role: role,
@@ -44,7 +44,7 @@ function createRecord(name,role,service,mobile,recording){
             'Content-Type': 'application/json'
         }
     };
-
+    session.send('dsadsa');
     var reqPost = http.request(extServerOptionsPost, function (res) {
         console.log("response statusCode: ", res.statusCode);
         res.on('data', function (data) {
@@ -128,7 +128,7 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-        createRecord("name","role","service","mobile","value");
+        createRecord("name","role","service","mobile","value",session);
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
