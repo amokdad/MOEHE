@@ -128,6 +128,7 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
+        createRecord("name","role","service","mobile","value");
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
