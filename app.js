@@ -166,7 +166,7 @@ bot.on("event", function (event) {
     var msg = new builder.Message().address(event.address);
     msg.data.textLocale = "en-us";
     if (event.name === "complaintRecorded") {
-        msg.data.text = "We got your complaint recording";
+        msg.data.text = "We got your complaint recording " + event.value;
     }
     bot.send(msg);
 })
