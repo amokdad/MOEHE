@@ -244,7 +244,7 @@ bot.on("event", function (event) {
         attachments.push(
              new builder.AudioCard(event.session)
             .media([
-                { url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }
+                { url: JSON.parse(event.value).recording }
             ])
         );
     
