@@ -236,6 +236,7 @@ bot.on("event", function (event) {
     msg.text = "something";   
         attachments.push(
              new builder.AudioCard(event.session)
+             .title("شكرا، لقد قمنا بإرسال ملخص الشكوى ومعلومات إضافية الى بريدك الالكتروني أدناه، وبإمكانك أن تسألني في أي وقت عن حالة الشكوى إذا لم يصلك أي رد خلال يوم عمل واحد.")
             .media([
                 { url: JSON.parse(event.value).recording }
             ])
