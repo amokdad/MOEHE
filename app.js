@@ -218,7 +218,7 @@ bot.on("event", function (event) {
        
     msg.attachments(attachments);
 
-    event.session.conversationData.user = JSON.parse(event.value);
+    event.session.conversationData.user = event.value;
 
     //createRecord(JSON.parse(event.value));
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
