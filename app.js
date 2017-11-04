@@ -289,7 +289,7 @@ var checkRequiresToken = function (message) {
     return message.source === 'skype' || message.source === 'msteams';
 };
 */
-/*
+
 bot.on('conversationUpdate', function (activity) {  
     if (activity.membersAdded) {
         activity.membersAdded.forEach((identity) => {
@@ -300,4 +300,4 @@ bot.on('conversationUpdate', function (activity) {
     }
  });
 
- */ 
+ 
