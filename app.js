@@ -278,7 +278,7 @@ var requestWithToken = function (url) {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/octet-stream'
             }
-        });
+        }); 
     });
 };
 
