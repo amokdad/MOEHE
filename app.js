@@ -129,23 +129,23 @@ function createAudioCard(session) {
 
 bot.dialog("askQuestions",[
     function(session){
-
-        var card = createAudioCard(createAudioCard);
-    
-        // attach the card to the reply message
-        var msg = new builder.Message(session).addAttachment(card);
-        session.send(msg);
         /*
         var msg = new builder.Message(session);
-        msg.attachmentLayout(builder.AttachmentLayout.carousel)
-        msg.attachments([
-            new builder.AudioCard(session)
-                .title("Classic White T-Shirt")
-                .subtitle("100% Soft and Luxurious Cotton")
-                .text("Price is $25 and carried in sizes (S, M, L, and XL)")
-        ]);
-        session.send(msg).endDialog();
-    */
+        msg.attachmentLayout(builder.AttachmentLayout.carousel);
+        var attachments = [];
+       
+        msg.text = "something";
+       
+            attachments.push(
+                 new builder.AudioCard(session)
+                .media([
+                    { url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }
+                ])
+            );
+       
+        msg.attachments(attachments);
+        builder.Prompts.choice(session, msg);*/
+        
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
@@ -229,15 +229,32 @@ bot.dialog("identifyRole",[
 bot.on("event", function (event) {
     
     var msg = new builder.Message().address(event.address);
-    event.ses
+    /*
     msg.data.textLocale = "en-us";
     if (event.name === "complaintRecorded") {
         msg.data.text = "We got your complaint recording " + event.value;
     }
+    */
+
+    msg.attachmentLayout(builder.AttachmentLayout.carousel);
+    var attachments = [];
+   
+    msg.text = "something";
+   
+        attachments.push(
+             new builder.AudioCard(event.session)
+            .media([
+                { url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }
+            ])
+        );
+    
+
+    msg.attachments(attachments);
+
 
     createRecord(JSON.parse(event.value));
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
-    msg.data.text = "Thanks";
+
     bot.send(msg);
 
 
