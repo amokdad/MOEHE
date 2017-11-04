@@ -186,10 +186,10 @@ bot.dialog("identifyRole",[
     function(session,results){
         session.conversationData.service = results.response.entity;
         session.send("questionThree");
-        var user =  {Role: session.conversationData.name,
+        var user =  {Role: "session.conversationData.name",
             Service: session.conversationData.role,
             Name: session.conversationData.service,
-            Mobile:session.conversationData.mobile
+            Mobile:"session.conversationData.mobile"
         }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
         session.send(reply);
