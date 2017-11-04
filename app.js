@@ -62,8 +62,7 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
         if(!err){
-            
-            session.beginDialog("askQuestions");
+            session.beginDialog("identifyRole");
         }
      });
 })
@@ -114,37 +113,9 @@ var program = {
 
 bot.dialog('/', intents);
 
-function createAudioCard(session) {
-    return new builder.HeroCard(session)
-    .title('BotFramework Hero Card')
-    .subtitle('Your bots — wherever your users are talking')
-    .text('Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.')
-    .images([
-        builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
-    ])
-    .buttons([
-        builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework', 'Get Started')
-    ]);
-}
-
 bot.dialog("askQuestions",[
     function(session){
-        /*
-        var msg = new builder.Message(session);
-        msg.attachmentLayout(builder.AttachmentLayout.carousel);
-        var attachments = [];
-       
-        msg.text = "something";
-       
-            attachments.push(
-                 new builder.AudioCard(session)
-                .media([
-                    { url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }
-                ])
-            );
-       
-        msg.attachments(attachments);
-        builder.Prompts.choice(session, msg);*/
+
         
         builder.Prompts.text(session,'what is your name');  
     },
@@ -168,8 +139,6 @@ bot.dialog("askQuestions",[
         Name: session.conversationData.service,
         Mobile:session.conversationData.mobile
     }
-       
-
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
         session.send(reply);
     }
@@ -210,19 +179,20 @@ bot.dialog("identifyRole",[
        program.Constants.QuestionOne[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
     function(session,results){
-        session.dialogData.questionOne = results.response.entity;
+        session.conversationData.role = results.response.entity;
         builder.Prompts.choice(session, "questionTwo" ,
         program.Constants.QuestionTwo[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
     function(session,results){
-        session.dialogData.questionTwo = results.response.entity;
+        session.conversationData.service = results.response.entity;
         session.send("questionThree");
-    }
-    ,
-    function(session,results){
-        session.dialogData.questionThree = results.response.entity;
-        builder.Prompts.choice(session, "questionFour" ,
-        program.Constants.StudentParentTeacher[session.preferredLocale()],{listStyle: builder.ListStyle.button});
+        var user =  {Role: session.conversationData.name,
+            Service: session.conversationData.role,
+            Name: session.conversationData.service,
+            Mobile:session.conversationData.mobile
+        }
+        var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
+        session.send(reply);
     }
 ]);
 
@@ -238,9 +208,7 @@ bot.on("event", function (event) {
 
     msg.attachmentLayout(builder.AttachmentLayout.carousel);
     var attachments = [];
-   
-    msg.text = "something";
-   
+    msg.text = "something";   
         attachments.push(
              new builder.AudioCard(event.session)
             .media([
@@ -267,28 +235,7 @@ const createEvent = (eventName, value, address) => {
     msg.data.value = value;
     return msg;
 }
-// Helper methods
-/*
-// Request file with Authentication Header
-var requestWithToken = function (url) {
-    return obtainToken().then(function (token) {
-        return request({
-            url: url,
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/octet-stream'
-            }
-        }); 
-    });
-};
 
-// Promise for obtaining JWT Token (requested once)
-var obtainToken = Promise.promisify(connector.getAccessToken.bind(connector));
-
-var checkRequiresToken = function (message) {
-    return message.source === 'skype' || message.source === 'msteams';
-};
-*/
 
 bot.on('conversationUpdate', function (activity) {  
     if (activity.membersAdded) {
