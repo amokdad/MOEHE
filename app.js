@@ -283,11 +283,9 @@ bot.on("event", function (event) {
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
 
     bot.send(msg);
-    //event.session.beginDialog("askQuestions");    
+    bot.beginDialog("askQuestions");    
 
 })
-
-
 
 const createEvent = (eventName, value, address) => {
     var msg = new builder.Message().address(address);
@@ -296,7 +294,6 @@ const createEvent = (eventName, value, address) => {
     msg.data.value = value;
     return msg;
 }
-
 
 bot.on('conversationUpdate', function (activity) {  
     if (activity.membersAdded) {
@@ -307,5 +304,10 @@ bot.on('conversationUpdate', function (activity) {
          });
     }
  });
+
+ bot.dialog("manualHelpMainMenu",[
+    function(session){
+        session.replaceDialog("identifyRole");
+ }]).triggerAction({matches: /Main Menu|اللائحة الرئيسية/i});
 
  
