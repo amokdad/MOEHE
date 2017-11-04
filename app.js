@@ -135,10 +135,10 @@ bot.dialog("askQuestions",[
         session.conversationData.mobile = session.message.text;
 
         var user =  {Role: session.conversationData.name,
-        Service: session.conversationData.role,
-        Name: session.conversationData.service,
-        Mobile:session.conversationData.mobile
-    }
+            Service: session.conversationData.role,
+            Name: session.conversationData.service,
+            Mobile:session.conversationData.mobile
+        }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
         session.send(reply);
     }
@@ -185,15 +185,40 @@ bot.dialog("identifyRole",[
     },
     function(session,results){
         session.conversationData.service = results.response.entity;
+       /*
         session.send("questionThree");
         var user =  {Role: "session.conversationData.name",
             Service: session.conversationData.role,
             Name: session.conversationData.service,
             Mobile:"session.conversationData.mobile"
         }
+        var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);*/
+        builder.Prompts.text(session,'يرجى كتابة إسمك أدناه.');  
+    },
+    function(session,results){
+        session.conversationData.name = session.message.text
+        builder.Prompts.text(session,"ما هو رقم جوالك؟");
+    }
+    ,
+    function(session,results){
+        session.conversationData.mobile = session.message.text
+        builder.Prompts.text(session,"يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
+    },
+    function(session,results){
+        session.conversationData.email = session.message.text
+        //builder.Prompts.text(session,"يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
+
+        session.send("questionThree");
+        var user =  {Role: session.conversationData.name + " " + session.conversationData.email,
+            Service: session.conversationData.role,
+            Name: session.conversationData.service,
+            Mobile:session.conversationData.mobile
+        }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
         session.send(reply);
+
     }
+
 ]);
 
 bot.on("event", function (event) {
@@ -220,7 +245,7 @@ bot.on("event", function (event) {
 
     //event.session.conversationData.user = event.value;
 
-    //createRecord(JSON.parse(event.value));
+    createRecord(JSON.parse(event.value));
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
 
     bot.send(msg);
