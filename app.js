@@ -215,7 +215,7 @@ bot.on("event", function (event) {
                 { url: JSON.parse(event.value).recording }
             ])
         );
-       
+        
     msg.attachments(attachments);
 
     event.session.conversationData.user = event.value;
