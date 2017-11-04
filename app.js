@@ -75,6 +75,8 @@ var intents = new builder.IntentDialog({ recognizers: [
         }
      });
 })
+
+
 /*----------------------------------------------------------------------------------------
 * Bot Storage: This is a great spot to register the private state storage for your bot. 
 * We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
@@ -112,11 +114,27 @@ var program = {
 
 bot.dialog('/', intents);
 
-
+function createAudioCard(session) {
+    return new builder.HeroCard(session)
+    .title('BotFramework Hero Card')
+    .subtitle('Your bots — wherever your users are talking')
+    .text('Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.')
+    .images([
+        builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
+    ])
+    .buttons([
+        builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework', 'Get Started')
+    ]);
+}
 
 bot.dialog("askQuestions",[
     function(session){
-        
+
+        var card = createAudioCard(createAudioCard);
+    
+        // attach the card to the reply message
+        var msg = new builder.Message(session).addAttachment(card);
+        session.send(msg);
         /*
         var msg = new builder.Message(session);
         msg.attachmentLayout(builder.AttachmentLayout.carousel)
