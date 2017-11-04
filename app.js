@@ -285,7 +285,7 @@ bot.on("event", function (event) {
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
 
     bot.send(msg);
-    bot.replaceDialog(event.address,"askQuestions");    
+    bot.beginDialog(event.address,"askQuestions");    
 
 })
 
