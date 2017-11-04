@@ -197,15 +197,15 @@ bot.dialog("identifyRole",[
     },
     function(session,results){
         session.conversationData.name = session.message.text
-        builder.Prompts.text(session,"ما هو رقم جوالك؟");
+        session.beginDialog("getMobile");
     }
     ,
     function(session,results){
         session.conversationData.mobile = session.message.text
-        builder.Prompts.text(session,"يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
+        session.beginDialog("getEmail");
     },
     function(session,results){
-        session.conversationData.email = session.message.text
+        session.conversationData.email = results.response;
         //builder.Prompts.text(session,"يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
 
         session.send("questionThree");
@@ -220,7 +220,40 @@ bot.dialog("identifyRole",[
     }
 
 ]);
-
+bot.dialog("getEmail",[
+    function(session,args){
+        if (args && args.reprompt) {
+            builder.Prompts.text(session, "عفوا، هذا البريد الالكتروني غير صحيح، يرجى المحاولة من جديد.");
+        } else {
+        builder.Prompts.text(session, "يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
+        }
+    },
+    function(session,results)
+    {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(re.test(results.response))
+            session.endDialogWithResult(results);
+        else
+            session.replaceDialog('getEmail', { reprompt: true });
+    }
+]);
+bot.dialog("getMobile",[
+    function(session,args){
+        if (args && args.reprompt) {
+            builder.Prompts.text(session, "عفوا، يجب أن يكون رقم الجوال 8 أرقام على الأقل، يرجى المحاولة من جديد.");
+        } else {
+        builder.Prompts.text(session, "ما هو رقم جوالك؟");
+        }
+    },
+    function(session,results)
+    {
+        var re = /[0-9]{8}/;
+        if(re.test(results.response))
+            session.endDialogWithResult(results);
+        else
+            session.replaceDialog('getMobile', { reprompt: true });
+    }
+]);
 bot.on("event", function (event) {
     
     var msg = new builder.Message().address(event.address);
