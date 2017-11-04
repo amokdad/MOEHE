@@ -154,7 +154,7 @@ bot.dialog("setLanguageWithPic",[
         new builder.HeroCard(session)
             .title("MOEHE")
             .text(txt)
-            .images([builder.CardImage.create(session, "https://www.manateq.qa/Style%20Library/MTQ/Images/logo.png")])
+            //.images([builder.CardImage.create(session, "https://www.manateq.qa/Style%20Library/MTQ/Images/logo.png")])
             .buttons([
                 builder.CardAction.imBack(session, "English", "English"),
                 builder.CardAction.imBack(session, "العربية", "العربية"),
@@ -209,9 +209,9 @@ bot.dialog("identifyRole",[
         //builder.Prompts.text(session,"يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
 
         session.send("questionThree");
-        var user =  {Role: session.conversationData.name + " " + session.conversationData.email,
+        var user =  {Name: session.conversationData.name + " " + session.conversationData.email,
             Service: session.conversationData.role,
-            Name: session.conversationData.service,
+            Role: session.conversationData.service,
             Mobile:session.conversationData.mobile
         }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
