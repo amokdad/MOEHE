@@ -140,8 +140,8 @@ bot.dialog("askQuestions",[
             Mobile:session.conversationData.mobile
         }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
-        session.send(reply);
-        session.endDialog();
+        session.send(reply).endDialog();
+
     }
 ]);
 
@@ -284,7 +284,7 @@ bot.on("event", function (event) {
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
 
     bot.send(msg);
-    bot.beginDialog(event.address,"askQuestions");    
+    bot.replaceDialog(event.address,"askQuestions");    
 
 })
 
