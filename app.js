@@ -215,18 +215,20 @@ bot.on("event", function (event) {
                 { url: JSON.parse(event.value).recording }
             ])
         );
-    
-
+       
     msg.attachments(attachments);
 
+    event.session.conversationData.user = JSON.parse(event.value);
 
-    createRecord(JSON.parse(event.value));
+    //createRecord(JSON.parse(event.value));
     //msg.data.text = "<audio controls><source src='/" + JSON.parse(event.value).recording + "' type='audio/wav'></audio>";
 
     bot.send(msg);
-
+    event.session.beginDialog("askQuestions");    
 
 })
+
+
 
 const createEvent = (eventName, value, address) => {
     var msg = new builder.Message().address(address);
