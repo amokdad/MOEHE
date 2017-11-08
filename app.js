@@ -7,7 +7,54 @@ var builder = require('botbuilder');
 var http = require('http');
 var request = require('request');
 
-//var Promise = require('bluebird');
+var DynamicsWebApi = require('dynamics-web-api');
+
+var AuthenticationContext = require('adal-node').AuthenticationContext;
+
+var dynamicsWebApi = new DynamicsWebApi({ 
+    webApiUrl: 'https://advancyaad.crm4.dynamics.com/api/data/v8.2/',
+    onTokenRefresh: acquireToken
+});
+var authorityUrl = 'https://login.microsoftonline.com/94aeda88-8526-4ec8-b28f-fa67a055379f/oauth2/token';
+var resource = 'https://advancyaad.crm4.dynamics.com';
+var clientId = '1ae582b5-4b16-4b40-b180-0239e9b2b947';
+var username = 'amokdad@advancyaad.onmicrosoft.com';
+var password = 'p@ssw0rd2';
+var adalContext = new AuthenticationContext(authorityUrl);
+
+function acquireToken(dynamicsWebApiCallback){
+    function adalCallback(error, token) {
+        if (!error){
+            dynamicsWebApiCallback(token);
+        }
+        else{
+            
+           // console.log(error);
+        }
+    }
+    adalContext.acquireTokenWithUsernamePassword(resource, username, password, clientId, adalCallback);
+}
+
+function CreateContact(contact,crmCase){
+    dynamicsWebApi.create(contact, "contacts").then(function (response) {
+       var contactId = response;
+       //crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
+       //CreateCase(crmCase);
+
+    })
+    .catch(function (error){
+        console.log(error);
+    });
+}
+function CreateCase(crmCase){
+    dynamicsWebApi.create(crmCase, "incidents").then(function (response) {
+        //console.log('done');
+
+    })
+    .catch(function (error){
+        console.log(error);
+    });
+}
 
 
 // Setup Restify Server
@@ -27,6 +74,21 @@ var connector = new builder.ChatConnector({
 });
 
 function createRecord(complaint){
+
+    var contact = {
+        firstname: complaint.,
+        //lastname: session.conversationData.q5,
+        mobilephone: session.conversationData.q6,
+        emailaddress1: session.conversationData.q3
+    };
+
+    var crmCase = {
+        title: session.conversationData.q1,
+        description: session.conversationData.q2
+    };
+
+    CreateContact(contact,crmCase);
+
     //to be replaced with CRM
     request.post({
         headers: {'content-type' : 'application/json'},
@@ -191,7 +253,9 @@ bot.dialog("identifyRole",[
         session.conversationData.email = results.response;
         session.send("بإمكانك الضغط على زر 'تسجيل صوتي' لترك رسالة صوتية بسهولة");
         
-        var user =  {Name: session.conversationData.name + " " + session.conversationData.email,
+        var user =  {
+            Name: session.conversationData.name,
+            Email: session.conversationData.email,
             Service: session.conversationData.role,
             Role: session.conversationData.service,
             Mobile:session.conversationData.mobile
