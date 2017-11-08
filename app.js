@@ -27,16 +27,7 @@ var connector = new builder.ChatConnector({
 });
 
 function createRecord(complaint){
-
-    /*
-    var complaint = {
-        Role: role,
-        Service: service,
-        Name: name,
-        Mobile:mobile,
-        Recording:recordingsssdaee
-    };*/
-
+    //to be replaced with CRM
     request.post({
         headers: {'content-type' : 'application/json'},
         url:     'http://complaintwav1.azurewebsites.net/api/Complaints/PostComplaints',
@@ -115,8 +106,6 @@ bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
     function(session){
-
-        
         builder.Prompts.text(session,'what is your name');  
     },
     function(session,results){
@@ -140,6 +129,7 @@ bot.dialog("askQuestions",[
             Mobile:session.conversationData.mobile
         }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
+
         session.send(reply);
         session.endDialog();
 
@@ -187,30 +177,20 @@ bot.dialog("identifyRole",[
     },
     function(session,results){
         session.conversationData.service = results.response.entity;
-       /*
-        session.send("questionThree");
-        var user =  {Role: "session.conversationData.name",
-            Service: session.conversationData.role,
-            Name: session.conversationData.service,
-            Mobile:"session.conversationData.mobile"
-        }
-        var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);*/
-        builder.Prompts.text(session,'يرجى كتابة إسمك أدناه.');  
+        builder.Prompts.text(session,'نأسف لوجود شكوى لديكم وسأقوم بمساعدتك لمعالجتها بأسرع وقت ممكن، يرجى كتابة إسمك أدناه');  
     },
     function(session,results){
         session.conversationData.name = session.message.text
         session.beginDialog("getMobile");
-    }
-    ,
+    },
     function(session,results){
         session.conversationData.mobile = session.message.text
         session.beginDialog("getEmail");
     },
     function(session,results){
         session.conversationData.email = results.response;
-        //builder.Prompts.text(session,"يرجى كتابة بريدك الالكتروني لنقوم بإرسال تفاصيل الشكوى ووسائل المتابعة");
-
-        session.send("questionThree");
+        session.send("بإمكانك الضغط على زر 'تسجيل صوتي' لترك رسالة صوتية بسهولة");
+        
         var user =  {Name: session.conversationData.name + " " + session.conversationData.email,
             Service: session.conversationData.role,
             Role: session.conversationData.service,
@@ -259,12 +239,7 @@ bot.dialog("getMobile",[
 bot.on("event", function (event) {
     
     var msg = new builder.Message().address(event.address);
-    /*
-    msg.data.textLocale = "en-us";
-    if (event.name === "complaintRecorded") {
-        msg.data.text = "We got your complaint recording " + event.value;
-    }
-    */
+
 
     msg.attachmentLayout(builder.AttachmentLayout.carousel);
     var attachments = [];
@@ -280,6 +255,7 @@ bot.on("event", function (event) {
     msg.attachments(attachments);
 
     createRecord(JSON.parse(event.value));
+
     bot.send(msg);
 
     bot.beginDialog("askQuestions"); 
