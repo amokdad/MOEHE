@@ -156,7 +156,7 @@ bot.dialog("setLanguageWithPic",[
         new builder.HeroCard(session)
             .title("MOEHE")
             .text(txt)
-            .images([builder.CardImage.create(session, "https://www.manateq.qa/Style%20Library/MTQ/Images/logo.png")])
+            .images([builder.CardImage.create(session, "http://complaintwav1.azurewebsites.net/content/images/untitled.png")])
             .buttons([
                 builder.CardAction.imBack(session, "English", "English"),
                 builder.CardAction.imBack(session, "العربية", "العربية"),
