@@ -154,7 +154,7 @@ bot.dialog("setLanguageWithPic",[
         var txt = session.localizer.gettext("en","selectYourLanguage");
         msg.attachments([
         new builder.HeroCard(session)
-            .title("MOEHE")
+            .title("Ministry of Education and Higher Education - وزارة التعليم والتعليم العالي")
             .text(txt)
             .images([builder.CardImage.create(session, "http://complaintwav1.azurewebsites.net/content/images/untitled.png")])
             .buttons([
