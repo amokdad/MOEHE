@@ -76,20 +76,22 @@ var connector = new builder.ChatConnector({
 function createRecord(complaint){
 
     var contact = {
-        firstname: complaint.,
+        firstname: complaint.Name,
         //lastname: session.conversationData.q5,
-        mobilephone: session.conversationData.q6,
-        emailaddress1: session.conversationData.q3
+        mobilephone: session.conversationData.Mobile,
+        emailaddress1: session.conversationData.Email
     };
 
     var crmCase = {
-        title: session.conversationData.q1,
-        description: session.conversationData.q2
+        title: session.conversationData.Role,
+        description: session.conversationData.Recording
     };
 
     CreateContact(contact,crmCase);
 
+
     //to be replaced with CRM
+
     request.post({
         headers: {'content-type' : 'application/json'},
         url:     'http://complaintwav1.azurewebsites.net/api/Complaints/PostComplaints',
@@ -322,7 +324,7 @@ bot.on("event", function (event) {
 
     bot.send(msg);
 
-    bot.beginDialog("askQuestions"); 
+    //bot.beginDialog("askQuestions"); 
 
 })
 
