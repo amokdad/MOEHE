@@ -305,9 +305,8 @@ bot.dialog("getMobile",[
 ]);
 bot.on("event", function (event) {
     
-    bot.send("sddsaddddsa");
+
     
-    /*
     var msg = new builder.Message().address(event.address);
 
 
@@ -323,13 +322,13 @@ bot.on("event", function (event) {
         );
          
     msg.attachments(attachments);
-    session.send('33');
-    createRecord(JSON.parse(event.value));
+    //session.send('33');
+    //createRecord(JSON.parse(event.value));
 
     bot.send(msg);
 
     //bot.beginDialog("askQuestions"); 
-    */
+    //*/
 
 })
 
