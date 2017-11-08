@@ -75,17 +75,17 @@ var connector = new builder.ChatConnector({
 });
 
 function createRecord(complaint){
-    session.send('dsadw');
+    
     var contact = {
         firstname: complaint.Name,
         //lastname: session.conversationData.q5,
-        mobilephone: session.conversationData.Mobile,
-        emailaddress1: session.conversationData.Email
+        mobilephone: complaint.Mobile,
+        emailaddress1: complaint.Email
     };
 
     var crmCase = {
-        title: session.conversationData.Role,
-        description: session.conversationData.Recording
+        title: complaint.Role,
+        description: complaint.Recording
     };
 
     CreateContact(contact,crmCase);
@@ -322,8 +322,8 @@ bot.on("event", function (event) {
         );
          
     msg.attachments(attachments);
-    //session.send('33');
-    //createRecord(JSON.parse(event.value));
+    
+    createRecord(JSON.parse(event.value));
 
     bot.send(msg);
 
