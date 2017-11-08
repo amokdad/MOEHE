@@ -306,6 +306,8 @@ bot.dialog("getMobile",[
 bot.on("event", function (event) {
     
     sesison.send('s');
+    
+    /*
     var msg = new builder.Message().address(event.address);
 
 
@@ -327,6 +329,7 @@ bot.on("event", function (event) {
     bot.send(msg);
 
     //bot.beginDialog("askQuestions"); 
+    */
 
 })
 
