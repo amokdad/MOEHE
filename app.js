@@ -36,6 +36,7 @@ function acquireToken(dynamicsWebApiCallback){
 }
 
 function CreateContact(contact,crmCase){
+    session.send('eer');
     dynamicsWebApi.create(contact, "contacts").then(function (response) {
        var contactId = response;
        //crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
@@ -74,7 +75,7 @@ var connector = new builder.ChatConnector({
 });
 
 function createRecord(complaint){
-
+    session.send('dsadw');
     var contact = {
         firstname: complaint.Name,
         //lastname: session.conversationData.q5,
@@ -304,6 +305,7 @@ bot.dialog("getMobile",[
 ]);
 bot.on("event", function (event) {
     
+    sesison.send('s');
     var msg = new builder.Message().address(event.address);
 
 
@@ -319,7 +321,7 @@ bot.on("event", function (event) {
         );
          
     msg.attachments(attachments);
-
+    session.send('33');
     createRecord(JSON.parse(event.value));
 
     bot.send(msg);
