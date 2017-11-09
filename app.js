@@ -43,6 +43,7 @@ function CreateContact(contact,crmCase){
         
        var contactId = response;
        crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
+       crmCase["new_useremail"] = contact.emailaddress1;
        CreateCase(contact,crmCase);
 
     })
@@ -61,7 +62,6 @@ function CreateCase(contact,crmCase){
         
     });
 }
-
 
 // Setup Restify Server
 var server = restify.createServer();
@@ -101,9 +101,6 @@ function createRecord(complaint){
    
 
 }
-
-
-
 
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
@@ -313,7 +310,6 @@ bot.dialog("Testing",[
         
     }
 ])
-
 bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
@@ -379,6 +375,30 @@ bot.dialog("setLanguageWithPic",[
        
     }
 ])
+bot.dialog("followup",[
+    function(session){
+        builder.Prompts.text(session,"شكرا، يرجى تزويدنا بالبريد الالكتروني الذي قمت باستخدامه لتقديم الشكوى.")
+
+    },
+    function(session,results){
+        var email = session.message.text;
+        dynamicsWebApi.retrieveAll("contacts", ["emailaddress1","fullname"],"new_useremail eq '" + email + "'").then(function (response) {
+            var records = response.value;
+
+            var exist = records != null && records.length >= 1;
+            if(exist){
+                session.send("Exist");
+            }
+            else{
+                session.send("diesn't Exist");
+                
+            }
+        })
+        .catch(function (error){
+            console.log(error);
+        });
+    }
+]);
 bot.dialog("identifyRole",[
     function(session){
        builder.Prompts.choice(session, "questionOne" ,
@@ -389,9 +409,25 @@ bot.dialog("identifyRole",[
         builder.Prompts.choice(session, "questionTwo" ,
         program.Constants.QuestionTwo[session.preferredLocale()],{listStyle: builder.ListStyle.button});
     },
+
     function(session,results){
-        session.conversationData.service = results.response.entity;
-        builder.Prompts.text(session,'نأسف لوجود شكوى لديكم وسأقوم بمساعدتك لمعالجتها بأسرع وقت ممكن، يرجى كتابة إسمك أدناه');  
+        session.conversationData.role = results.response.entity;
+        builder.Prompts.choice(session, "questionTwo" ,
+        "تقديم|متابعة شكوى",{listStyle: builder.ListStyle.button});
+    },
+    function(session,results){
+  
+        if(results.response.entity== "متابعة شكوى"){
+            
+            
+            session.replaceDialog("followup");
+            
+        }
+        else{
+            session.conversationData.service = results.response.entity;
+            builder.Prompts.text(session,'نأسف لوجود شكوى لديكم وسأقوم بمساعدتك لمعالجتها بأسرع وقت ممكن، يرجى كتابة إسمك أدناه');  
+    
+        }
     },
     function(session,results){
         session.conversationData.name = session.message.text
