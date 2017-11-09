@@ -331,8 +331,8 @@ bot.on("event", function (event) {
     createRecord(JSON.parse(event.value));
     bot.send(msg);
 
-    event.session.beginDialog("Testing");
-
+    session.beginDialog("Testing");
+    
     //bot.beginDialog("askQuestions"); 
     //*/
 
