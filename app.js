@@ -54,6 +54,7 @@ function CreateContact(contact,crmCase){
 }
 function CreateCase(contact,crmCase){
     
+    
     dynamicsWebApi.create(crmCase, "incidents").then(function (response) {
         
         program.SendEmail({name:contact.firstname ,email:contact.emailaddress1 ,complaint:response});
@@ -393,11 +394,12 @@ bot.dialog("followup",[
 
                 var date = new Date(response.value[0].createdon).toDateString();
                 var incident = response.value[0].incidentid;
+                session.dialogData.incidentId = incident;
                 var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
 
-                session.send(" لقد قمت بتقديم شكوى بتاريخ" + date );
+                session.send(" لقد قمت بتقديم شكوى بتاريخ " + date );
 
-                builder.Prompts.text(session," وحالة الشكوى هي" + status);
+                builder.Prompts.text(session," وحالة الشكوى هي " + status);
                 
             }
             else{
@@ -412,7 +414,21 @@ bot.dialog("followup",[
         });
         
     },function(session,result){
-        session.send("final");
+        builder.Prompts.choice(session, "هل بإمكاني مساعدتك بأي استفسار آخر أو هل ترغب بأن يقوم أحد مستشارينا بالتواصل معك سريعا؟" ,
+        "نعم أريد أن تتصلوا بي|ليس لدي أي استفسار آخر",{listStyle: builder.ListStyle.button});
+    },function(session,results){
+        
+        var crmCase = {
+            new_crmcomment : new DateTime().toDateString()+ " Requested phone call"
+            };
+        dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
+            
+            console.log("Ds");
+
+        })
+        .catch(function (error){
+            
+        });
     }
 ]);
 bot.dialog("identifyRole",[
@@ -552,7 +568,6 @@ bot.on('conversationUpdate', function (activity) {
             if (identity.id === activity.address.bot.id) {
                    bot.beginDialog(activity.address, 'setLanguageWithPic');
 
-                   
              }
          });
     }
