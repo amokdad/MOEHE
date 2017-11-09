@@ -37,7 +37,7 @@ function acquireToken(dynamicsWebApiCallback){
 }
 
 function CreateContact(contact,crmCase){
-    console.log('here1');
+  
     dynamicsWebApi.create(contact, "contacts").then(function (response) {
         
        var contactId = response;
@@ -80,37 +80,16 @@ var connector = new builder.ChatConnector({
 
 function createRecord(complaint){
      
-    
     var contact = {
-        firstname: complaint.Name,
-        //lastname: session.conversationData.q5,
-        mobilephone: complaint.Mobile,
-        emailaddress1: complaint.Email
+        firstname: complaint.Name,mobilephone: complaint.Mobile,emailaddress1: complaint.Email
     };
 
     var crmCase = {
-        title: complaint.Role,
-        new_recording: "https://complaintwav1.azurewebsites.net/" + complaint.recording,
+        title: complaint.Role,new_recording: "https://complaintwav1.azurewebsites.net/" + complaint.recording,
     };
 
     CreateContact(contact,crmCase);
-    
-    /*
-    var contact = {
-        firstname: "complaint.Name",
-        //lastname: session.conversationData.q5,
-        mobilephone: "complaint.Mobile",
-        emailaddress1: "complaint.Email"
-    };
 
-    var crmCase = {
-        title: "complaint.Role",
-        description: "complaint.Recording"
-    };
-
-    CreateContact(contact,crmCase);
-    //to be replaced with CRM
-*/
     request.post({
         headers: {'content-type' : 'application/json'},
         url:     'http://complaintwav1.azurewebsites.net/api/Complaints/PostComplaints',
@@ -121,6 +100,16 @@ function createRecord(complaint){
    
 
 }
+
+
+bot.dialog("Testing",[
+    function(session){
+        session.send("dsadsa");
+    },
+    function(session,results){
+
+    }
+])
 
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
@@ -339,10 +328,10 @@ bot.on("event", function (event) {
         );
          
     msg.attachments(attachments);
-    
     createRecord(JSON.parse(event.value));
-
     bot.send(msg);
+
+    event.session.beginDialog("Testing");
 
     //bot.beginDialog("askQuestions"); 
     //*/
