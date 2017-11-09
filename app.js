@@ -331,12 +331,16 @@ bot.on("event", function (event) {
     createRecord(JSON.parse(event.value));
     bot.send(msg);
 
-    session.beginDialog("Testing");
     
+    bot.beginDialog({
+        to: { address: event.address}
+    }, 'Testing');
     //bot.beginDialog("askQuestions"); 
     //*/
 
 })
+
+
 
 const createEvent = (eventName, value, address) => {
     var msg = new builder.Message().address(address);
