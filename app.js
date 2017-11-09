@@ -102,14 +102,7 @@ function createRecord(complaint){
 }
 
 
-bot.dialog("Testing",[
-    function(session){
-        session.send("dsadsa");
-    },
-    function(session,results){
 
-    }
-])
 
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
@@ -173,7 +166,14 @@ var program = {
         }
     } 
 }
+bot.dialog("Testing",[
+    function(session){
+        session.send("dsadsa");
+    },
+    function(session,results){
 
+    }
+])
 bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
