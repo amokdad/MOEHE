@@ -6,6 +6,7 @@ var restify = require('restify');
 var builder = require('botbuilder');
 var http = require('http');
 var request = require('request');
+var nodemailer = require('nodemailer');
 
 var DynamicsWebApi = require('dynamics-web-api');
 
@@ -42,22 +43,22 @@ function CreateContact(contact,crmCase){
         
        var contactId = response;
        crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
-       CreateCase(crmCase);
+       CreateCase(contact,crmCase);
 
     })
     .catch(function (error){
         console.log(error);
     });
 }
-function CreateCase(crmCase){
+function CreateCase(contact,crmCase){
     
     dynamicsWebApi.create(crmCase, "incidents").then(function (response) {
-        //console.log('done');
-        console.log('here3');
+        
+        program.SendEmail({name:contact.firstname ,email:contact.emailaddress1 ,complaint:response});
 
     })
     .catch(function (error){
-        console.log(error);
+        
     });
 }
 
@@ -115,8 +116,7 @@ var ArabicRecognizers = {
 var intents = new builder.IntentDialog({ recognizers: [    
     ArabicRecognizers.arabicRecognizer,
     ArabicRecognizers.englishRecognizer,
-    //ArabicRecognizers.moreInfoRecognizer
-] 
+    ArabicRecognizers.moreInfoRecognizer] 
 ,recognizeOrder:"series"})
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
@@ -158,45 +158,74 @@ var bot = new builder.UniversalBot(connector,{
  
 var program = {
 
+    SendEmail : function(data,locale){
+            var html = "<div style='width:100%' dir='rtl'><table><tr><td colspan='2'>عزيزي {{user}}</td></tr><tr><td> رقم الشكوى</td><td>{{complaint}}</td></tr></table></div>";
+            var subject = "رقم الشكوى";
+            html = html.replace("{{user}}",data.name);
+            html = html.replace("{{complaint}}",data.complaint);
+
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'rattazataom@gmail.com',
+                    pass: '!!xuloloL'
+                }
+            });
+            var mailOptions = {
+                from: 'rattazataom@gmail.com',
+                to: data.email,
+                subject: subject,
+                html: html,
+                
+            };
+            transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+            })
+
+    },
 
     Student:[
         {
             Content:"حصدت دولة قطر 4 ميداليات برونزية في منافسات اولمبياد الكيمياء العربي التي استضافتها  دولة الكويت خلال الفترة من 15-19 اكتوبر الجاري",
-            Description:"طلاب قطر يحصدون 4 برونزيات في اولمبياد الكيمياء العربي",
+            Description:"طلاب قطر يحصدون 4 برونزيات في اولمبياد الكيمياء ",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2342342323243.JPG"
         }, 
         {
             Content:"توجه وفد قطري من طلاب المرحلة الثانوية إلى دولة الكويت الشقيقة للمشاركة في منافسات أولمبياد الكيمياء العربي الثامن والمزمع انعقاده في الفترة من 15 إلى 19 أكتوبر الجاري ",
-            Description:"طلاب قطريون يغادرون إلى دولة الكويت للمشاركة في تصفيات الكيمياء",
+            Description:"طلاب قطريون يغادرون إلى دولة الكويت",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/IMG_4511.JPG"
         }, 
         {
             Content:"تحت شعار ' بالتميز نبني الأجيال' نظمت اللجنة المنظمة لجائزة التميز العلمي في دورتها الحادية عشرة 2018م اليوم ورشة تدريبية خاصة في مكتبة جامعة قطر (بنين وبنات)",
-            Description:"انعقاد ورشة تعريفية بجائزة الطالب الجامعي المتميز في جامعة قطر",
+            Description:"انعقاد ورشة تعريفية بجائزة الطالب الجامعي",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2017-10-16-PHOTO-00000106.jpg"
         }
     ],
     Parent:[
         {
             Content:"ناقش الاجتماع الذي عقدته  إدارة التربية الخاصة ورعاية الموهوبين  مع اللجنة الاستشارية للمعلمين في الميدان التعليمي برئاسة السيدة هنادي منصور الخاطر مدير إدارة التربية الخاصة ورعاية الموهوبين",
-            Description:"التعليم تناقش مستجدات التربية الخاصة ورعاية الموهوبين مع اللجنة الاستشارية",
+            Description:"التعليم تناقش مستجدات التربية الخاصة",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/mwhobeen453453.jpeg"
         }, 
         {
             Content:"نظم  مشروع مهاراتي بإدارة الطفولة المبكرة ورشة للنواب الإداريين والاخصائيات الاجتماعيات والمشرفات الادارية لمدارس الفوج الاول والثاني الابتدائية تحت مسمى",
-            Description:"تمكين أولياء الامور : ورشة للنواب والمشرفات الإداريين والاخصائيات الاجتماعيات",
+            Description:"تمكين أولياء الامور : ورشة للنواب والمشرفات ",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7208.jpg"
         }, 
         {
             Content:"عقدت اللجنة المنظمة لجوائز يوم التميز العلمي بفندق هيلتون الدوحة اليوم سبع ورش تدريبية قدمها رؤساء وأعضاء لجان تحكيم فئات الجائزة المختلفة وذلك لتعريف المهتمين بالتقدم لجوائز",
-            Description:"7 ورش تدريبية للمهتمين بالتقدم لجوائز التميز العلمي",
+            Description:"ورش تدريبية للمهتمين بالتقدم لجوائز التميز ",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z6324234533.JPG"
         }
     ],
     Teacher:[
         {
             Content:"صدر سعادة الدكتور محمد بن عبد الواحد الحمادي وزير التعليم والتعليم العالي  قراراً وزارياً بتعيين السيدة ريما محمد أبو خديجة  مديرا لإدارة المناهج الدراسية ومصادر التعلم",
-            Description:"ريما أبو خديجة مديرا لإدارة المناهج الدراسية ومصادر التعلم",
+            Description:"ريما أبو خديجة مديرا لإدارة المناهج الدراسية",
             Image:"http://www.edu.gov.qa/Ar/Media/News/PublishingImages/Rema%20Abou%20Khadiga_1.jpg"
         }, 
         {
@@ -206,7 +235,7 @@ var program = {
         }, 
         {
             Content:"بدأ اليوم البرنامج التدريبي حول استخدام تكنولوجيا المعلومات والاتصال في التعليم، والذي نظمه مركز التدريب والتطوير التربوي بالتعاون مع اللجنة الوطنية القطرية للتربية والثقافة والعلوم والمنظمة",
-            Description:"بدء البرنامج التدريبي الخاص باستخدام تكنولوجيا المعلومات والاتصال في التعليم",
+            Description:"بدء البرنامج التدريبي الخاص باستخدام تكنولوجيا",
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7226.JPG"
         }
     ],
@@ -282,41 +311,8 @@ bot.dialog("Testing",[
         builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
         "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
         
-    },
-    function(session){
-        
-        var d = [];
-        if(session.conversationData.role == "طالب/طالبة"){
-            d = program.Student;
-        }
-        else if(session.conversationData.role== "أهل"){
-            d = program.Parent;
-        }
-        else{
-            d = program.Teacher;
-        }
-        session.conversationData.Option = d;
-        var msg = new builder.Message(session);
-        msg.attachmentLayout(builder.AttachmentLayout.carousel);
-        var attachments = [];
-        for(var i in d)
-        {
-            attachments.push(
-                    new builder.HeroCard(session)
-                .title(d[i].Description)
-                .text(d[i].Content.substring(0,150)+"...")
-                .images([builder.CardImage.create(session, d[i].Image)])
-                /*.buttons([
-                    builder.CardAction.imBack(session, i, "المزيد")
-                ])*/
-            );
-        }
-        msg.attachments(attachments);
-        builder.Prompts.choice(session, msg, d);
     }
 ])
-
-
 
 bot.dialog('/', intents);
 
