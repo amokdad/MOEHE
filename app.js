@@ -385,7 +385,7 @@ bot.dialog("followup",[
       
         var email = session.message.text;
         
-        dynamicsWebApi.retrieveAll("incidents", ["title","createdon","crmstatus"],"new_useremail eq '" + email + "'").then(function (response) {
+        dynamicsWebApi.retrieveAll("incidents", ["title","createdon","new_crmstatus"],"new_useremail eq '" + email + "'").then(function (response) {
             var records = response.value;
 
             var exist = records != null && records.length >= 1;
@@ -393,8 +393,9 @@ bot.dialog("followup",[
 
                 var date = new Date(response.value[0].createdon).toDateString();
                 var incident = response.value[0].incidentid;
-
-
+                var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
+                var msg = "لقد قمت بتقديم شكوى بتاريخ" + date + "وحالة الشكوى هي" + status;
+                builder.Prompts.text(session,msg);
                 
             }
             else{
@@ -549,7 +550,6 @@ bot.on('conversationUpdate', function (activity) {
             if (identity.id === activity.address.bot.id) {
                    bot.beginDialog(activity.address, 'setLanguageWithPic');
 
-               
                    
              }
          });
