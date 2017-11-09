@@ -126,8 +126,8 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('Arabic',(session, args) => {
     session.preferredLocale("ar",function(err){
         if(!err){
-            //session.beginDialog("identifyRole");
-            session.beginDialog("Testing");
+            session.beginDialog("identifyRole");
+            //session.beginDialog("Testing");
         }
      });
 })
@@ -166,6 +166,40 @@ var program = {
             Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2017-10-16-PHOTO-00000106.jpg"
         }
     ],
+    Parent:[
+        {
+            Content:"ناقش الاجتماع الذي عقدته  إدارة التربية الخاصة ورعاية الموهوبين  مع اللجنة الاستشارية للمعلمين في الميدان التعليمي برئاسة السيدة هنادي منصور الخاطر مدير إدارة التربية الخاصة ورعاية الموهوبين",
+            Description:"التعليم تناقش مستجدات التربية الخاصة ورعاية الموهوبين مع اللجنة الاستشارية",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/mwhobeen453453.jpeg"
+        }, 
+        {
+            Content:"نظم  مشروع مهاراتي بإدارة الطفولة المبكرة ورشة للنواب الإداريين والاخصائيات الاجتماعيات والمشرفات الادارية لمدارس الفوج الاول والثاني الابتدائية تحت مسمى",
+            Description:"تمكين أولياء الامور : ورشة للنواب والمشرفات الإداريين والاخصائيات الاجتماعيات",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7208.jpg"
+        }, 
+        {
+            Content:"عقدت اللجنة المنظمة لجوائز يوم التميز العلمي بفندق هيلتون الدوحة اليوم سبع ورش تدريبية قدمها رؤساء وأعضاء لجان تحكيم فئات الجائزة المختلفة وذلك لتعريف المهتمين بالتقدم لجوائز",
+            Description:"7 ورش تدريبية للمهتمين بالتقدم لجوائز التميز العلمي",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z6324234533.JPG"
+        }
+    ],
+    Teacher:[
+        {
+            Content:"صدر سعادة الدكتور محمد بن عبد الواحد الحمادي وزير التعليم والتعليم العالي  قراراً وزارياً بتعيين السيدة ريما محمد أبو خديجة  مديرا لإدارة المناهج الدراسية ومصادر التعلم",
+            Description:"ريما أبو خديجة مديرا لإدارة المناهج الدراسية ومصادر التعلم",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/PublishingImages/Rema%20Abou%20Khadiga_1.jpg"
+        }, 
+        {
+            Content:"المعلم  والمعلمة لهما  مكانة وأهمية كبيرة في تربية وتعليم الناشئة، لأنهما أساس الحياة والأخلاق، ولهما الفضل الأكبر في حياة الطلاب،  فهما من  يعلمانهم  كيفية حمل القلم والقراءة إلى أن يصلا",
+            Description:"مدرسة زينب بنت جحش قالت للمعلمة: لك كل الشكر والتقدير",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/zinabBentGahsh934898.jpg"
+        }, 
+        {
+            Content:"بدأ اليوم البرنامج التدريبي حول استخدام تكنولوجيا المعلومات والاتصال في التعليم، والذي نظمه مركز التدريب والتطوير التربوي بالتعاون مع اللجنة الوطنية القطرية للتربية والثقافة والعلوم والمنظمة",
+            Description:"بدء البرنامج التدريبي الخاص باستخدام تكنولوجيا المعلومات والاتصال في التعليم",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7226.JPG"
+        }
+    ],
     Constants : {
         QuestionOne : {
             en:"Student|Parent|Teacher|Nothing",
@@ -195,13 +229,13 @@ bot.dialog("Testing",[
     function(session,results){
         var d = [];
         if(session.conversationData.role == "طالب/طالبة"){
-            d = progam.Student;
+            d = program.Student;
         }
         else if(session.conversationData.role== "أهل"){
-            d = progam.Parent;
+            d = program.Parent;
         }
         else{
-            d = progam.Teacher;
+            d = program.Teacher;
         }
         session.conversationData.Option = d;
         var msg = new builder.Message(session);
@@ -214,9 +248,9 @@ bot.dialog("Testing",[
                 .title(d[i].Description)
                 .text(d[i].Content.substring(0,150)+"...")
                 .images([builder.CardImage.create(session, d[i].Image)])
-                .buttons([
+                /*.buttons([
                     builder.CardAction.imBack(session, i, "المزيد")
-                ])
+                ])*/
             );
         }
         msg.attachments(attachments);
@@ -298,6 +332,7 @@ bot.dialog("setLanguageWithPic",[
        session.preferredLocale(locale,function(err){
            if(!err){
               session.replaceDialog("identifyRole");    
+              //session.replaceDialog("Testing");  
            }
        });
        
