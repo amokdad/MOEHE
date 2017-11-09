@@ -331,7 +331,9 @@ bot.on("event", function (event) {
     createRecord(JSON.parse(event.value));
     bot.send(msg);
 
+    bot.beginDialog(event.address,"Testing");
     
+    /*
     bot.beginDialog({
         to: { address: event.address}
     }, 'Testing');
