@@ -76,6 +76,7 @@ var connector = new builder.ChatConnector({
 
 function createRecord(complaint){
     
+    /*
     var contact = {
         firstname: complaint.Name,
         //lastname: session.conversationData.q5,
@@ -89,7 +90,7 @@ function createRecord(complaint){
     };
 
     CreateContact(contact,crmCase);
-
+    */
 
     //to be replaced with CRM
 
@@ -320,7 +321,7 @@ bot.on("event", function (event) {
          
     msg.attachments(attachments);
     
-    //createRecord(JSON.parse(event.value));
+    createRecord(JSON.parse(event.value));
 
     bot.send(msg);
 
