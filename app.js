@@ -386,6 +386,7 @@ bot.dialog("identifyRole",[
         }
         var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
         session.send(reply);
+        session.endDialog();
 
     }
 
