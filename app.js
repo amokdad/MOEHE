@@ -27,6 +27,7 @@ function acquireToken(dynamicsWebApiCallback){
     function adalCallback(error, token) {
         if (!error){
             dynamicsWebApiCallback(token);
+            //console.log(token);
         }
         else{
             
@@ -43,6 +44,7 @@ function CreateContact(contact,crmCase){
        var contactId = response;
        crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
        crmCase["new_useremail"] = contact.emailaddress1;
+       crmCase["new_crmstatus"] = 100000000;
        CreateCase(contact,crmCase);
 
     })
@@ -382,12 +384,18 @@ bot.dialog("followup",[
     function(session,results){
       
         var email = session.message.text;
-        dynamicsWebApi.retrieveAll("incidents", ["title","createdon"],"new_useremail eq '" + email + "'").then(function (response) {
+        
+        dynamicsWebApi.retrieveAll("incidents", ["title","createdon","crmstatus"],"new_useremail eq '" + email + "'").then(function (response) {
             var records = response.value;
 
             var exist = records != null && records.length >= 1;
             if(exist){
-                session.send("Exist");
+
+                var date = new Date(response.value[0].createdon).toDateString();
+                var incident = response.value[0].incidentid;
+
+
+                
             }
             else{
                 
@@ -541,7 +549,16 @@ bot.on('conversationUpdate', function (activity) {
             if (identity.id === activity.address.bot.id) {
                    bot.beginDialog(activity.address, 'setLanguageWithPic');
 
-
+                   var contact = {
+                    firstname: "complaint.Name",mobilephone: "complaint.Mobile",emailaddress1: "dsa@dsa.com"
+                };
+            
+                var crmCase = {
+                    title: "Das",new_recording: "https://complaintwav1.azurewebsites.net/",
+                };
+            
+                CreateContact(contact,crmCase);
+                   
              }
          });
     }
