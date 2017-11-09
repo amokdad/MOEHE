@@ -89,7 +89,7 @@ function createRecord(complaint){
 
     var crmCase = {
         title: complaint.Role,
-        description: complaint.Recording
+        description: complaint.recording
     };
 
     CreateContact(contact,crmCase);
