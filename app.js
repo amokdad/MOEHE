@@ -378,7 +378,7 @@ bot.dialog("setLanguageWithPic",[
 bot.dialog("followup",[
     function(session){
         builder.Prompts.text(session,"شكرا، يرجى تزويدنا بالبريد الالكتروني الذي قمت باستخدامه لتقديم الشكوى.")
-
+ 
     },
     function(session,results){
         var email = session.message.text;
