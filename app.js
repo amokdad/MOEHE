@@ -115,7 +115,8 @@ var ArabicRecognizers = {
 var intents = new builder.IntentDialog({ recognizers: [    
     ArabicRecognizers.arabicRecognizer,
     ArabicRecognizers.englishRecognizer,
-    ArabicRecognizers.moreInfoRecognizer] 
+    //ArabicRecognizers.moreInfoRecognizer
+] 
 ,recognizeOrder:"series"})
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
@@ -281,6 +282,37 @@ bot.dialog("Testing",[
         builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
         "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
         
+    },
+    function(session){
+        
+        var d = [];
+        if(session.conversationData.role == "طالب/طالبة"){
+            d = program.Student;
+        }
+        else if(session.conversationData.role== "أهل"){
+            d = program.Parent;
+        }
+        else{
+            d = program.Teacher;
+        }
+        session.conversationData.Option = d;
+        var msg = new builder.Message(session);
+        msg.attachmentLayout(builder.AttachmentLayout.carousel);
+        var attachments = [];
+        for(var i in d)
+        {
+            attachments.push(
+                    new builder.HeroCard(session)
+                .title(d[i].Description)
+                .text(d[i].Content.substring(0,150)+"...")
+                .images([builder.CardImage.create(session, d[i].Image)])
+                /*.buttons([
+                    builder.CardAction.imBack(session, i, "المزيد")
+                ])*/
+            );
+        }
+        msg.attachments(attachments);
+        builder.Prompts.choice(session, msg, d);
     }
 ])
 
