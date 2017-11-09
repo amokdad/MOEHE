@@ -79,7 +79,7 @@ var connector = new builder.ChatConnector({
 });
 
 function createRecord(complaint){
-    
+     
     
     var contact = {
         firstname: complaint.Name,
