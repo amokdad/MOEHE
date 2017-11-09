@@ -79,7 +79,7 @@ var connector = new builder.ChatConnector({
 
 function createRecord(complaint){
     
-    /*
+    
     var contact = {
         firstname: complaint.Name,
         //lastname: session.conversationData.q5,
@@ -93,7 +93,8 @@ function createRecord(complaint){
     };
 
     CreateContact(contact,crmCase);
-    */
+    
+    /*
     var contact = {
         firstname: "complaint.Name",
         //lastname: session.conversationData.q5,
@@ -108,7 +109,7 @@ function createRecord(complaint){
 
     CreateContact(contact,crmCase);
     //to be replaced with CRM
-
+*/
     request.post({
         headers: {'content-type' : 'application/json'},
         url:     'http://complaintwav1.azurewebsites.net/api/Complaints/PostComplaints',
