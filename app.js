@@ -394,8 +394,10 @@ bot.dialog("followup",[
                 var date = new Date(response.value[0].createdon).toDateString();
                 var incident = response.value[0].incidentid;
                 var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
-                var msg = "لقد قمت بتقديم شكوى بتاريخ" + date + "وحالة الشكوى هي" + status;
-                builder.Prompts.text(session,msg);
+
+                session.send(" لقد قمت بتقديم شكوى بتاريخ" + date );
+
+                builder.Prompts.text(session," وحالة الشكوى هي" + status);
                 
             }
             else{
