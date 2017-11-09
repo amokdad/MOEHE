@@ -304,11 +304,8 @@ bot.dialog("getMobile",[
     }
 ]);
 bot.on("event", function (event) {
-    
 
-    
     var msg = new builder.Message().address(event.address);
-
 
     msg.attachmentLayout(builder.AttachmentLayout.carousel);
     var attachments = [];
@@ -323,7 +320,7 @@ bot.on("event", function (event) {
          
     msg.attachments(attachments);
     
-    createRecord(JSON.parse(event.value));
+    //createRecord(JSON.parse(event.value));
 
     bot.send(msg);
 
