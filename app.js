@@ -217,16 +217,18 @@ var program = {
         GetOptions : function(option,locale){
             return option[locale];
         }
-    } 
+    }  
 }
 bot.dialog("Testing2",[
     
         function(session){
+            session.send("Ewq");
             builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
             "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
             
         },
         function(session,results){
+            session.send("dsa");
             var d = [];
             if(session.conversationData.role == "طالب/طالبة"){
                 d = program.Student;
@@ -273,6 +275,7 @@ bot.dialog("Testing2",[
 bot.dialog("Testing",[
 
     function(session){
+        session.send('dsadas');
         session.replaceDialog("Testing2");
     }
 ])
