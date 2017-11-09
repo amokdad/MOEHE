@@ -36,11 +36,12 @@ function acquireToken(dynamicsWebApiCallback){
 }
 
 function CreateContact(contact,crmCase){
-    session.send('eer');
+    console.log('here1');
     dynamicsWebApi.create(contact, "contacts").then(function (response) {
+        
        var contactId = response;
-       //crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
-       //CreateCase(crmCase);
+       crmCase["customerid_contact@odata.bind"] = "https://advancyaad.crm4.dynamics.com/api/data/v8.2/contacts("+contactId+")";
+       CreateCase(crmCase);
 
     })
     .catch(function (error){
@@ -48,8 +49,10 @@ function CreateContact(contact,crmCase){
     });
 }
 function CreateCase(crmCase){
+    
     dynamicsWebApi.create(crmCase, "incidents").then(function (response) {
         //console.log('done');
+        console.log('here3');
 
     })
     .catch(function (error){
@@ -91,7 +94,19 @@ function createRecord(complaint){
 
     CreateContact(contact,crmCase);
     */
+    var contact = {
+        firstname: "complaint.Name",
+        //lastname: session.conversationData.q5,
+        mobilephone: "complaint.Mobile",
+        emailaddress1: "complaint.Email"
+    };
 
+    var crmCase = {
+        title: "complaint.Role",
+        description: "complaint.Recording"
+    };
+
+    CreateContact(contact,crmCase);
     //to be replaced with CRM
 
     request.post({
