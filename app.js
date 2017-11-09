@@ -258,7 +258,7 @@ bot.dialog("Testing2",[
             }
             msg.attachments(attachments);
             builder.Prompts.choice(session, msg, d);
-        },
+        }/*,
         function(session,results){
             var i = results.response;
             var msg = new builder.Message(session);
@@ -271,7 +271,7 @@ bot.dialog("Testing2",[
                
             );
     
-        }
+        }*/
     ])
 bot.dialog("Testing",[
 
