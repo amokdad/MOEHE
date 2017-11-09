@@ -27,7 +27,7 @@ function acquireToken(dynamicsWebApiCallback){
     function adalCallback(error, token) {
         if (!error){
             dynamicsWebApiCallback(token);
-            //console.log(token);
+            console.log(token);
         }
         else{
             
@@ -549,15 +549,7 @@ bot.on('conversationUpdate', function (activity) {
             if (identity.id === activity.address.bot.id) {
                    bot.beginDialog(activity.address, 'setLanguageWithPic');
 
-                   var contact = {
-                    firstname: "complaint.Name",mobilephone: "complaint.Mobile",emailaddress1: "dsa@dsa.com"
-                };
-            
-                var crmCase = {
-                    title: "Das",new_recording: "https://complaintwav1.azurewebsites.net/",
-                };
-            
-                CreateContact(contact,crmCase);
+               
                    
              }
          });
