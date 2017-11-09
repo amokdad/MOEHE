@@ -27,7 +27,6 @@ function acquireToken(dynamicsWebApiCallback){
     function adalCallback(error, token) {
         if (!error){
             dynamicsWebApiCallback(token);
-            console.log(token);
         }
         else{
             
@@ -377,12 +376,13 @@ bot.dialog("setLanguageWithPic",[
 ])
 bot.dialog("followup",[
     function(session){
-        builder.Prompts.text(session,"شكرا، يرجى تزويدنا بالبريد الالكتروني الذي قمت باستخدامه لتقديم الشكوى.")
+        builder.Prompts.text(session,"شكرا، يرجى تزويدنا بالبريد الالكتروني الذي قمت باستخدامه لتقديم الشكوى.");
  
     },
     function(session,results){
+      
         var email = session.message.text;
-        dynamicsWebApi.retrieveAll("contacts", ["emailaddress1","fullname"],"new_useremail eq '" + email + "'").then(function (response) {
+        dynamicsWebApi.retrieveAll("incidents", ["title","createdon"],"new_useremail eq '" + email + "'").then(function (response) {
             var records = response.value;
 
             var exist = records != null && records.length >= 1;
@@ -390,13 +390,18 @@ bot.dialog("followup",[
                 session.send("Exist");
             }
             else{
-                session.send("diesn't Exist");
                 
+                session.send("عفوا، هذا البريد الالكتروني غير مسجل لدينا");
+                builder.Prompts.choice(session, "هل تود المحاولة من جديد أو تقديم شكوى جديدة؟" ,
+                "تقديم شكوى جديدة|محاولة من جديد",{listStyle: builder.ListStyle.button});
             }
         })
         .catch(function (error){
             console.log(error);
         });
+        
+    },function(session,result){
+        session.send("final");
     }
 ]);
 bot.dialog("identifyRole",[
@@ -535,6 +540,8 @@ bot.on('conversationUpdate', function (activity) {
         activity.membersAdded.forEach((identity) => {
             if (identity.id === activity.address.bot.id) {
                    bot.beginDialog(activity.address, 'setLanguageWithPic');
+
+
              }
          });
     }
