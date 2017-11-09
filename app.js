@@ -109,7 +109,8 @@ server.post('/api/messages', connector.listen());
 
 var ArabicRecognizers = {
     arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /العربية/i), 
-    englishRecognizer : new builder.RegExpRecognizer( "English", /English/i)
+    englishRecognizer : new builder.RegExpRecognizer( "English", /English/i),
+    englishRecognizer : new builder.RegExpRecognizer( "MoreInfo", /أريد أن أتصفح المحتوى الخاص/i)
 }
 var intents = new builder.IntentDialog({ recognizers: [    
     ArabicRecognizers.arabicRecognizer,
@@ -131,7 +132,14 @@ var intents = new builder.IntentDialog({ recognizers: [
         }
      });
 })
-
+.matches('MoreInfo',(session, args) => {
+    session.preferredLocale("ar",function(err){
+        if(!err){
+            session.beginDialog("Testing2");
+            //session.beginDialog("Testing");
+        }
+     });
+})
 
 /*----------------------------------------------------------------------------------------
 * Bot Storage: This is a great spot to register the private state storage for your bot. 
@@ -220,15 +228,8 @@ var program = {
     }  
 }
 bot.dialog("Testing2",[
-    
         function(session){
-            session.send("Ewq");
-            builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
-            "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
-            
-        },
-        function(session,results){
-            session.send("dsa");
+
             var d = [];
             if(session.conversationData.role == "طالب/طالبة"){
                 d = program.Student;
@@ -275,8 +276,10 @@ bot.dialog("Testing2",[
 bot.dialog("Testing",[
 
     function(session){
-        session.send('dsadas');
-        session.replaceDialog("Testing2");
+        
+        builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
+        "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
+        
     }
 ])
 
