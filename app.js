@@ -89,7 +89,7 @@ function createRecord(complaint){
 
     var crmCase = {
         title: complaint.Role,
-        description: complaint.recording
+        description: "https://complaintwav1.azurewebsites.net/" + complaint.recording
     };
 
     CreateContact(contact,crmCase);
