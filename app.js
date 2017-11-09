@@ -428,8 +428,9 @@ bot.on("event", function (event) {
          
     msg.attachments(attachments);
     createRecord(JSON.parse(event.value));
-    bot.send(msg);
+    bot.send(msg).endDialog();
 
+    
     bot.beginDialog(event.address,"Testing");
     
     /*
