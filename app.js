@@ -147,6 +147,24 @@ var bot = new builder.UniversalBot(connector,{
  
 var program = {
 
+
+    Student:[
+        {
+            Content:"حصدت دولة قطر 4 ميداليات برونزية في منافسات اولمبياد الكيمياء العربي التي استضافتها  دولة الكويت خلال الفترة من 15-19 اكتوبر الجاري",
+            Description:"طلاب قطر يحصدون 4 برونزيات في اولمبياد الكيمياء العربي",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2342342323243.JPG"
+        }, 
+        {
+            Content:"حصدت دولة قطر 4 ميداليات برونزية في منافسات اولمبياد الكيمياء العربي التي استضافتها  دولة الكويت خلال الفترة من 15-19 اكتوبر الجاري",
+            Description:"طلاب قطر يحصدون 4 برونزيات في اولمبياد الكيمياء العربي",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2342342323243.JPG"
+        }, 
+        {
+            Content:"حصدت دولة قطر 4 ميداليات برونزية في منافسات اولمبياد الكيمياء العربي التي استضافتها  دولة الكويت خلال الفترة من 15-19 اكتوبر الجاري",
+            Description:"طلاب قطر يحصدون 4 برونزيات في اولمبياد الكيمياء العربي",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2342342323243.JPG"
+        }
+    ],
     Constants : {
         QuestionOne : {
             en:"Student|Parent|Teacher|Nothing",
@@ -168,12 +186,57 @@ var program = {
 }
 bot.dialog("Testing",[
     function(session){
-        session.send("dsadsa");
+        builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
+        "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
+        
     },
     function(session,results){
+        var d = [];
+        if(session.conversationData.role == "طالب/طالبة"){
+            d = progam.Student;
+        }
+        else if(session.conversationData.role== "أهل"){
+            d = progam.Parent;
+        }
+        else{
+            d = progam.Teacher;
+        }
+        session.conversationData.Option = d;
+        var msg = new builder.Message(session);
+        msg.attachmentLayout(builder.AttachmentLayout.carousel);
+        var attachments = [];
+        for(var i in d)
+        {
+            attachments.push(
+                 new builder.HeroCard(session)
+                .title(d[i].Description)
+                .text(d[i].Content.substring(0,150)+"...")
+                .images([builder.CardImage.create(session, d[i].Image)])
+                .buttons([
+                    builder.CardAction.imBack(session, i, "المزيد")
+                ])
+            );
+        }
+        msg.attachments(attachments);
+        builder.Prompts.choice(session, msg, d);
+    },
+    function(session,results){
+        var i = results.response;
+        var msg = new builder.Message(session);
+        msg.attachmentLayout(builder.AttachmentLayout.carousel);
+        attachments.push(
+            new builder.HeroCard(session)
+           .title(session.conversationData.Option[i].Description)
+           .text(session.conversationData.Option[i].Content.substring(0,150)+"...")
+           .images([builder.CardImage.create(session, session.conversationData.Option[i].Image)])
+           
+        );
 
     }
 ])
+
+
+
 bot.dialog('/', intents);
 
 bot.dialog("askQuestions",[
@@ -226,8 +289,7 @@ bot.dialog("setLanguageWithPic",[
         ]);
         builder.Prompts.choice(session, msg, "العربية|English");
     },
-    function(session,results){
-
+    function(session,results){        
 
        var locale = program.Helpers.GetLocal(results.response.index);
        session.conversationData.lang = locale;
