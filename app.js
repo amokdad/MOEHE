@@ -110,11 +110,12 @@ server.post('/api/messages', connector.listen());
 var ArabicRecognizers = {
     arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /العربية/i), 
     englishRecognizer : new builder.RegExpRecognizer( "English", /English/i),
-    englishRecognizer : new builder.RegExpRecognizer( "MoreInfo", /أريد أن أتصفح المحتوى الخاص/i)
+    moreInfoRecognizer : new builder.RegExpRecognizer( "MoreInfo", /أريد أن أتصفح المحتوى الخاص/i)
 }
 var intents = new builder.IntentDialog({ recognizers: [    
     ArabicRecognizers.arabicRecognizer,
-    ArabicRecognizers.englishRecognizer] 
+    ArabicRecognizers.englishRecognizer,
+    ArabicRecognizers.moreInfoRecognizer] 
 ,recognizeOrder:"series"})
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
