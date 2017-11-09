@@ -126,7 +126,8 @@ var intents = new builder.IntentDialog({ recognizers: [
 .matches('Arabic',(session, args) => {
     session.preferredLocale("ar",function(err){
         if(!err){
-            session.beginDialog("identifyRole");
+            //session.beginDialog("identifyRole");
+            session.beginDialog("Testing");
         }
      });
 })
@@ -185,6 +186,7 @@ var program = {
     } 
 }
 bot.dialog("Testing",[
+
     function(session){
         builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
         "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
