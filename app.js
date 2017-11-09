@@ -219,55 +219,61 @@ var program = {
         }
     } 
 }
+bot.dialog("Testing2",[
+    
+        function(session){
+            builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
+            "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
+            
+        },
+        function(session,results){
+            var d = [];
+            if(session.conversationData.role == "طالب/طالبة"){
+                d = program.Student;
+            }
+            else if(session.conversationData.role== "أهل"){
+                d = program.Parent;
+            }
+            else{
+                d = program.Teacher;
+            }
+            session.conversationData.Option = d;
+            var msg = new builder.Message(session);
+            msg.attachmentLayout(builder.AttachmentLayout.carousel);
+            var attachments = [];
+            for(var i in d)
+            {
+                attachments.push(
+                     new builder.HeroCard(session)
+                    .title(d[i].Description)
+                    .text(d[i].Content.substring(0,150)+"...")
+                    .images([builder.CardImage.create(session, d[i].Image)])
+                    /*.buttons([
+                        builder.CardAction.imBack(session, i, "المزيد")
+                    ])*/
+                );
+            }
+            msg.attachments(attachments);
+            builder.Prompts.choice(session, msg, d);
+        },
+        function(session,results){
+            var i = results.response;
+            var msg = new builder.Message(session);
+            msg.attachmentLayout(builder.AttachmentLayout.carousel);
+            attachments.push(
+                new builder.HeroCard(session)
+               .title(session.conversationData.Option[i].Description)
+               .text(session.conversationData.Option[i].Content.substring(0,150)+"...")
+               .images([builder.CardImage.create(session, session.conversationData.Option[i].Image)])
+               
+            );
+    
+        }
+    ])
 bot.dialog("Testing",[
 
     function(session){
-        builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
-        "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
-        
-    },
-    function(session,results){
-        var d = [];
-        if(session.conversationData.role == "طالب/طالبة"){
-            d = program.Student;
-        }
-        else if(session.conversationData.role== "أهل"){
-            d = program.Parent;
-        }
-        else{
-            d = program.Teacher;
-        }
-        session.conversationData.Option = d;
-        var msg = new builder.Message(session);
-        msg.attachmentLayout(builder.AttachmentLayout.carousel);
-        var attachments = [];
-        for(var i in d)
-        {
-            attachments.push(
-                 new builder.HeroCard(session)
-                .title(d[i].Description)
-                .text(d[i].Content.substring(0,150)+"...")
-                .images([builder.CardImage.create(session, d[i].Image)])
-                /*.buttons([
-                    builder.CardAction.imBack(session, i, "المزيد")
-                ])*/
-            );
-        }
-        msg.attachments(attachments);
-        builder.Prompts.choice(session, msg, d);
-    },
-    function(session,results){
-        var i = results.response;
-        var msg = new builder.Message(session);
-        msg.attachmentLayout(builder.AttachmentLayout.carousel);
-        attachments.push(
-            new builder.HeroCard(session)
-           .title(session.conversationData.Option[i].Description)
-           .text(session.conversationData.Option[i].Content.substring(0,150)+"...")
-           .images([builder.CardImage.create(session, session.conversationData.Option[i].Image)])
-           
-        );
-
+        session.replaceDialog("Testing2");
     }
 ])
 
@@ -428,7 +434,7 @@ bot.on("event", function (event) {
          
     msg.attachments(attachments);
     createRecord(JSON.parse(event.value));
-    bot.send(msg).endDialog();
+    bot.send(msg);
 
     
     bot.beginDialog(event.address,"Testing");
