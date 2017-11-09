@@ -26,6 +26,7 @@ function acquireToken(dynamicsWebApiCallback){
     function adalCallback(error, token) {
         if (!error){
             dynamicsWebApiCallback(token);
+            console.log(token);
         }
         else{
             
@@ -89,7 +90,7 @@ function createRecord(complaint){
 
     var crmCase = {
         title: complaint.Role,
-        description: "https://complaintwav1.azurewebsites.net/" + complaint.recording
+        new_recording: "https://complaintwav1.azurewebsites.net/" + complaint.recording,
     };
 
     CreateContact(contact,crmCase);
@@ -237,6 +238,8 @@ bot.dialog("setLanguageWithPic",[
         builder.Prompts.choice(session, msg, "العربية|English");
     },
     function(session,results){
+
+
        var locale = program.Helpers.GetLocal(results.response.index);
        session.conversationData.lang = locale;
        session.preferredLocale(locale,function(err){
