@@ -269,8 +269,8 @@ var program = {
             ar:"طالب/طالبة|أهل|أستاذ/استاذة|لا أريد الإنتقاء "
         },
         QuestionTwo : {
-            en:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم شكوى/متابعة شكوى",
-            ar:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم شكوى/متابعة شكوى "
+            en:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم شكوى|متابعة شكوى",
+            ar:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم شكوى|متابعة شكوى "
         },
     },
     Helpers: {
@@ -312,7 +312,9 @@ bot.dialog("Testing2",[
                 );
             }
             msg.attachments(attachments);
-            builder.Prompts.choice(session, msg, d);
+            session.send(msg);
+            //builder.Prompts.choice(session, msg, d);
+            
         }/*,
         function(session,results){
             var i = results.response;
@@ -332,7 +334,7 @@ bot.dialog("Testing",[
 
     function(session){
         
-        builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
+        builder.Prompts.choice(session, "لدينا معلومات تهمك بصفتك : " + session.conversationData.role,
         "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
     }
 ])
@@ -460,7 +462,7 @@ bot.dialog("followup",[
         else if(results.response.entity=="محاولة من جديد"){
             session.replaceDialog("followup");
         }
-        else if(result.responce.entity == "ليس لدي أي استفسار آخر")
+        else if(results.response.entity == "ليس لدي أي استفسار آخر")
             {
                 session.replaceDialog("Testing2");
             }
@@ -512,12 +514,6 @@ bot.dialog("identifyRole",[
         session.conversationData.role = results.response.entity;
         builder.Prompts.choice(session, "questionTwo" ,
         program.Constants.QuestionTwo[session.preferredLocale()],{listStyle: builder.ListStyle.button});
-    },
-
-    function(session,results){
-        //session.conversationData.role = results.response.entity;
-        builder.Prompts.choice(session, "questionTwo" ,
-        "تقديم شكوى|متابعة شكوى",{listStyle: builder.ListStyle.button});
     },
     function(session,results){
         session.conversationData.service = results.response.entity;
