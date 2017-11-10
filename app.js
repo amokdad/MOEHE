@@ -175,7 +175,7 @@ var program = {
             +"<tr><td>مقدم الشكوى</td><td>{{type}}</td></tr>"
             +"<tr><td>البريد الالكتروني</td><td>{{email}}</td></tr>"
             +"<tr><td>رقم الجوال</td><td>{{mobile}}</td></tr>"
-            +"<tr><td>الشكوى</td><td>{{link}}</td></tr>"
+            +"<tr><td>الشكوى</td><td><a href='{{link}}'>اضغط هنا</a></td></tr>"
             +"<tr><td>حالة الشكوى</td><td>{{status}}</td></tr>"
             +"</table><br/>"
             +"مع تحيات،<br/><a href=”http://www.edu.gov.qa”> وزارة التعليم والتعليم العالي </a>"
@@ -468,7 +468,7 @@ bot.dialog("identifyRole",[
     },
 
     function(session,results){
-        session.conversationData.role = results.response.entity;
+        //session.conversationData.role = results.response.entity;
         builder.Prompts.choice(session, "questionTwo" ,
         "تقديم|متابعة شكوى",{listStyle: builder.ListStyle.button});
     },
