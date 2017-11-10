@@ -568,6 +568,7 @@ bot.dialog("getMobile",[
 ]);
 bot.on("event", function (event) {
 
+    createRecord(JSON.parse(event.value));
     var msg = new builder.Message().address(event.address);
 
     msg.attachmentLayout(builder.AttachmentLayout.carousel);
@@ -582,12 +583,14 @@ bot.on("event", function (event) {
         );
          
     msg.attachments(attachments);
-    createRecord(JSON.parse(event.value));
+    
+    
+    
     bot.send(msg);
-
+         
     
     bot.beginDialog(event.address,"Testing");
-    
+    createRecord(JSON.parse(event.value));
     /*
     bot.beginDialog({
         to: { address: event.address}
