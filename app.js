@@ -269,8 +269,8 @@ var program = {
             ar:"طالب/طالبة|أهل|أستاذ/استاذة|لا أريد الإنتقاء "
         },
         QuestionTwo : {
-            en:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم/متابعة شكوى",
-            ar:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم/متابعة شكوى "
+            en:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم شكوى/متابعة شكوى",
+            ar:"اسئلة عامة|تقديم خدمة إلكترونية|إرسال إستفسار إلى إدارة معينة|تقديم شكوى/متابعة شكوى "
         },
     },
     Helpers: {
@@ -470,7 +470,7 @@ bot.dialog("identifyRole",[
     function(session,results){
         //session.conversationData.role = results.response.entity;
         builder.Prompts.choice(session, "questionTwo" ,
-        "تقديم|متابعة شكوى",{listStyle: builder.ListStyle.button});
+        "تقديم شكوى|متابعة شكوى",{listStyle: builder.ListStyle.button});
     },
     function(session,results){
   
