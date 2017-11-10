@@ -178,7 +178,7 @@ var program = {
             +"<tr><td>الشكوى</td><td><a href='{{link}}'>اضغط هنا</a></td></tr>"
             +"<tr><td>حالة الشكوى</td><td>{{status}}</td></tr>"
             +"</table><br/>"
-            +"مع تحيات،<br/><a href='”'http://www.edu.gov.qa'> وزارة التعليم والتعليم العالي </a>"
+            +"مع تحيات،<br/><a href='http://www.edu.gov.qa'> وزارة التعليم والتعليم العالي </a>"
             +"</div>";
             var subject = "رقم الشكوى";
             html = html.replace("{{name}}",data.name);
