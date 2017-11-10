@@ -63,7 +63,7 @@ function CreateCase(contact,crmCase){
                 email:contact.emailaddress1 ,
                 type:crmCase.title,
                 mobile:contact.mobilephone,
-                link:new_recording,
+                link:crmCase.new_recording,
                 status:"تحت المراجعة"
         });
 
