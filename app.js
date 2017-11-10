@@ -334,7 +334,6 @@ bot.dialog("Testing",[
         
         builder.Prompts.choice(session, " لدينا محتوى ومعلومات قد تهمك " + session.conversationData.role,
         "أريد أن أتصفح المحتوى الخاص|الرجوع الى القائمة الرئيسية",{listStyle: builder.ListStyle.button});
-        
     }
 ])
 bot.dialog('/', intents);
@@ -461,6 +460,10 @@ bot.dialog("followup",[
         else if(results.response.entity=="محاولة من جديد"){
             session.replaceDialog("followup");
         }
+        else if(result.responce.entity == "ليس لدي أي استفسار آخر")
+            {
+                session.replaceDialog("Testing2");
+            }
         else{
             session.endDialog();
         }
