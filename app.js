@@ -313,22 +313,25 @@ bot.dialog("Testing2",[
             }
             msg.attachments(attachments);
             session.send(msg);
+             
+        builder.Prompts.choice(session, "هل بإمكاني مساعدتك بأي شيء آخر؟",
+        "الرجوع الى القائمة الرئيسية|ليس لدي أي استفسارات أخرى",{listStyle: builder.ListStyle.button});
+ 
             //builder.Prompts.choice(session, msg, d);
             
-        }/*,
+        },
         function(session,results){
-            var i = results.response;
-            var msg = new builder.Message(session);
-            msg.attachmentLayout(builder.AttachmentLayout.carousel);
-            attachments.push(
-                new builder.HeroCard(session)
-               .title(session.conversationData.Option[i].Description)
-               .text(session.conversationData.Option[i].Content.substring(0,150)+"...")
-               .images([builder.CardImage.create(session, session.conversationData.Option[i].Image)])
-               
-            );
+            var output = results.response.entity;
+            if(output = "ليس لدي أي استفسارات أخرى")
+            {
+                session.send("شكرا لاستخدامك خدماتنا الالكترونية. نتمنى رؤيتك مجددا");
+            }
+            else{
+                session.replaceDialog("identifyRole");
+            }
+            session.endDialog();
     
-        }*/
+        }
     ])
 bot.dialog("Testing",[
 
