@@ -168,17 +168,20 @@ var program = {
     SendEmail : function(data,locale){
             //var html = "<div style='width:100%' dir='rtl'><table><tr><td colspan='2'>عزيزي {{user}}</td></tr><tr><td> رقم الشكوى</td><td>{{complaint}}</td></tr></table></div>";
             //var html = "السلام عليكم {{username}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي.";
-            html += "<div dir=’rtl’> السلام عليكم {{name}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي."
-            +"<table>"
+            var html = "";
+            html += "<div dir='rtl'> السلام عليكم {{name}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي."
+            +"<br/><br/><table>"
             +"<tr><td>الاسم الكامل</td><td>{{name}}</td></tr>"
             +"<tr><td>مقدم الشكوى</td><td>{{type}}</td></tr>"
             +"<tr><td>البريد الالكتروني</td><td>{{email}}</td></tr>"
             +"<tr><td>رقم الجوال</td><td>{{mobile}}</td></tr>"
             +"<tr><td>الشكوى</td><td>{{link}}</td></tr>"
             +"<tr><td>حالة الشكوى</td><td>{{status}}</td></tr>"
-            +"</table></div>";
-            +"مع تحيات،<br/><a href=”http://www.edu.gov.qa”> وزارة التعليم والتعليم العالي </a>";
+            +"</table><br/>"
+            +"مع تحيات،<br/><a href=”http://www.edu.gov.qa”> وزارة التعليم والتعليم العالي </a>"
+            +"</div>";
             var subject = "رقم الشكوى";
+            html = html.replace("{{name}}",data.name);
             html = html.replace("{{name}}",data.name);
             html = html.replace("{{type}}",data.type);
             html = html.replace("{{email}}",data.email);
@@ -589,6 +592,17 @@ bot.on('conversationUpdate', function (activity) {
         activity.membersAdded.forEach((identity) => {
             if (identity.id === activity.address.bot.id) {
                    bot.beginDialog(activity.address, 'setLanguageWithPic');
+
+                   /*
+                   program.SendEmail(
+                    {
+                        name:"contact.firstname" ,
+                        email:"ahmad.mokdad@live.com" ,
+                        type:"crmCase.title",
+                        mobile:"contact.mobilephone",
+                        link:"new_recording",
+                        status:"تحت المراجعة"
+                });*/
 
              }
          });
