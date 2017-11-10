@@ -584,7 +584,7 @@ const createEvent = (eventName, value, address) => {
     msg.data.type = "event";
     msg.data.name = eventName;
     msg.data.value = value;
-    return msg;
+    return msg; 
 }
 
 bot.on('conversationUpdate', function (activity) {  
