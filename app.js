@@ -124,7 +124,8 @@ var ArabicRecognizers = {
 var intents = new builder.IntentDialog({ recognizers: [    
     ArabicRecognizers.arabicRecognizer,
     ArabicRecognizers.englishRecognizer,
-    ArabicRecognizers.moreInfoRecognizer] 
+    ArabicRecognizers.moreInfoRecognizer,
+    ArabicRecognizers.mainRecognizer] 
 ,recognizeOrder:"series"})
 .matches('English',(session, args) => {
     session.preferredLocale("en",function(err){
