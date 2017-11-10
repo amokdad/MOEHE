@@ -422,7 +422,7 @@ bot.dialog("followup",[
                 session.dialogData.incidentId = incident;
                 var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
 
-                var msg = "لقد قمت بتقديم شكوى بتاريخ {{date}} وحالة الشكوى هي {{status}} ".replace("{{date}}",date).replace("{{status}}",status);
+                var msg = "لقد قمت بتقديم شكوى بتاريخ التاريخ  وحالة الشكوى هي: الحالة ".replace("التاريخ",date).replace("الحالة",status);
                 session.send(msg);
                 builder.Prompts.choice(session, "هل بإمكاني مساعدتك بأي استفسار آخر أو هل ترغب بأن يقوم أحد مستشارينا بالتواصل معك سريعا؟" ,
                 "نعم أريد أن تتصلوا بي|ليس لدي أي استفسار آخر",{listStyle: builder.ListStyle.button});
