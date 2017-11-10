@@ -211,7 +211,7 @@ var program = {
             })
 
     },
-
+ 
     Student:[
         {
             Content:"حصدت دولة قطر 4 ميداليات برونزية في منافسات اولمبياد الكيمياء العربي التي استضافتها  دولة الكويت خلال الفترة من 15-19 اكتوبر الجاري",
@@ -442,17 +442,62 @@ bot.dialog("followup",[
         
     },function(session,results){
         
-        var crmCase = {
-            new_crmcomment : new Date().toDateString()+ " Requested phone call"
+        if(results.entity=="نعم أريد أن تتصلوا بي"){
+            var crmCase = {
+                new_crmcomment : new Date().toDateString()+ " Requested a phone call"
             };
-        dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
-            
-            console.log("Ds");
+                dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
+    
+    
+            })
+            .catch(function (error){
+                
+            });
+        }
+        else if(results.entity=="تقديم شكوى جديدة"){
+            session.replaceDialog("complaint");
+        }
+        else if(results.entity=="محاولة من جديد"){
+            session.replaceDialog("followup");
+        }
 
-        })
-        .catch(function (error){
-            
-        });
+        
+
+       
+        session.endDialog();
+    }
+]);
+
+bot.dialog("complaint",[
+    function(session)
+    {
+        session.conversationData.service = results.response.entity;
+        builder.Prompts.text(session,'نأسف لوجود شكوى لديكم وسأقوم بمساعدتك لمعالجتها بأسرع وقت ممكن، يرجى كتابة إسمك أدناه');  
+
+    },
+    function(session,results){
+        session.conversationData.name = session.message.text
+        session.beginDialog("getMobile");
+    },
+    function(session,results){
+        session.conversationData.mobile = session.message.text
+        session.beginDialog("getEmail");
+    },
+    function(session,results){
+        session.conversationData.email = results.response;
+        session.send("بإمكانك الضغط على زر 'تسجيل صوتي' لترك رسالة صوتية بسهولة");
+        
+        var user =  {
+            Name: session.conversationData.name,
+            Email: session.conversationData.email,
+            Service: session.conversationData.role,
+            Role: session.conversationData.service,
+            Mobile:session.conversationData.mobile
+        }
+        var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
+        session.send(reply);
+        session.endDialog();
+
     }
 ]);
 bot.dialog("identifyRole",[
@@ -480,34 +525,8 @@ bot.dialog("identifyRole",[
             
         }
         else{
-            session.conversationData.service = results.response.entity;
-            builder.Prompts.text(session,'نأسف لوجود شكوى لديكم وسأقوم بمساعدتك لمعالجتها بأسرع وقت ممكن، يرجى كتابة إسمك أدناه');  
-    
+            session.replaceDialog("complaint");
         }
-    },
-    function(session,results){
-        session.conversationData.name = session.message.text
-        session.beginDialog("getMobile");
-    },
-    function(session,results){
-        session.conversationData.mobile = session.message.text
-        session.beginDialog("getEmail");
-    },
-    function(session,results){
-        session.conversationData.email = results.response;
-        session.send("بإمكانك الضغط على زر 'تسجيل صوتي' لترك رسالة صوتية بسهولة");
-        
-        var user =  {
-            Name: session.conversationData.name,
-            Email: session.conversationData.email,
-            Service: session.conversationData.role,
-            Role: session.conversationData.service,
-            Mobile:session.conversationData.mobile
-        }
-        var reply = createEvent("startRecording", JSON.stringify(user), session.message.address);
-        session.send(reply);
-        session.endDialog();
-
     }
 
 ]);
