@@ -421,7 +421,7 @@ bot.dialog("followup",[
                 var incident = response.value[0].incidentid;
                 session.dialogData.incidentId = incident;
                 var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
- 
+  
                 var msg = "لقد قمت بتقديم شكوى بتاريخ التاريخ  وحالة الشكوى هي: الحالة ".replace("التاريخ",date).replace("الحالة",status);
                 session.send(msg);
                 builder.Prompts.choice(session, "هل بإمكاني مساعدتك بأي استفسار آخر أو هل ترغب بأن يقوم أحد مستشارينا بالتواصل معك سريعا؟" ,
