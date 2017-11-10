@@ -180,7 +180,7 @@ var program = {
             +"</table><br/>"
             +"مع تحيات،<br/><a href='http://www.edu.gov.qa'> وزارة التعليم والتعليم العالي </a>"
             +"</div>";
-            var subject = "رقم الشكوى";
+            var subject = "وزارة التعليم والتعليم العالي";
             html = html.replace("{{name}}",data.name);
             html = html.replace("{{name}}",data.name);
             html = html.replace("{{type}}",data.type);
