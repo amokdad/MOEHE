@@ -417,7 +417,8 @@ bot.dialog("followup",[
             var exist = records != null && records.length >= 1;
             if(exist){
 
-                var date = new Date(response.value[0].createdon).toDateString();
+                var date = new Date(response.value[0].createdon).toLocaleDateString("ar-EG");
+                
                 var incident = response.value[0].incidentid;
                 session.dialogData.incidentId = incident;
                 var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
