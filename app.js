@@ -325,11 +325,12 @@ bot.dialog("Testing2",[
             if(output = "ليس لدي أي استفسارات أخرى")
             {
                 session.send("شكرا لاستخدامك خدماتنا الالكترونية. نتمنى رؤيتك مجددا");
+                session.endDialog();
             }
             else{
                 session.replaceDialog("identifyRole");
             }
-            session.endDialog();
+            
     
         }
     ])
