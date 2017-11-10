@@ -442,7 +442,8 @@ bot.dialog("followup",[
         
     },function(session,results){
         
-        if(results.entity=="نعم أريد أن تتصلوا بي"){
+        console.log(JSON.stringify(results));
+        if(results.response.entity=="نعم أريد أن تتصلوا بي"){
             var crmCase = {
                 new_crmcomment : new Date().toDateString()+ " Requested a phone call"
             };
@@ -454,24 +455,23 @@ bot.dialog("followup",[
                 
             });
         }
-        else if(results.entity=="تقديم شكوى جديدة"){
+        else if(results.response.entity=="تقديم شكوى جديدة"){
             session.replaceDialog("complaint");
         }
-        else if(results.entity=="محاولة من جديد"){
+        else if(results.response.entity=="محاولة من جديد"){
             session.replaceDialog("followup");
         }
+        else{
+            session.endDialog();
+        }
 
-        
-
-       
-        session.endDialog();
     }
 ]);
 
 bot.dialog("complaint",[
     function(session)
     {
-        session.conversationData.service = results.response.entity;
+        
         builder.Prompts.text(session,'نأسف لوجود شكوى لديكم وسأقوم بمساعدتك لمعالجتها بأسرع وقت ممكن، يرجى كتابة إسمك أدناه');  
 
     },
@@ -517,7 +517,7 @@ bot.dialog("identifyRole",[
         "تقديم شكوى|متابعة شكوى",{listStyle: builder.ListStyle.button});
     },
     function(session,results){
-  
+        session.conversationData.service = results.response.entity;
         if(results.response.entity== "متابعة شكوى"){
             
             
