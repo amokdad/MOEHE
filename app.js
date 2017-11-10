@@ -118,7 +118,8 @@ server.post('/api/messages', connector.listen());
 var ArabicRecognizers = {
     arabicRecognizer : new builder.RegExpRecognizer( "Arabic", /العربية/i), 
     englishRecognizer : new builder.RegExpRecognizer( "English", /English/i),
-    moreInfoRecognizer : new builder.RegExpRecognizer( "MoreInfo", /أريد أن أتصفح المحتوى الخاص/i)
+    moreInfoRecognizer : new builder.RegExpRecognizer( "MoreInfo", /أريد أن أتصفح المحتوى الخاص/i),
+    mainRecognizer : new builder.RegExpRecognizer( "maininfo", /الرجوع الى القائمة الرئيسية/i)
 }
 var intents = new builder.IntentDialog({ recognizers: [    
     ArabicRecognizers.arabicRecognizer,
@@ -145,6 +146,14 @@ var intents = new builder.IntentDialog({ recognizers: [
     session.preferredLocale("ar",function(err){
         if(!err){
             session.beginDialog("Testing2");
+            //session.beginDialog("Testing");
+        }
+     });
+})
+.matches('maininfo',(session, args) => {
+    session.preferredLocale("ar",function(err){
+        if(!err){
+            session.beginDialog("identifyRole");
             //session.beginDialog("Testing");
         }
      });
