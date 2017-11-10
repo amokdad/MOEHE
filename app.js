@@ -57,7 +57,15 @@ function CreateCase(contact,crmCase){
     
     dynamicsWebApi.create(crmCase, "incidents").then(function (response) {
         
-        program.SendEmail({name:contact.firstname ,email:contact.emailaddress1 ,complaint:response});
+        program.SendEmail(
+            {
+                name:contact.firstname ,
+                email:contact.emailaddress1 ,
+                type:crmCase.title,
+                mobile:contact.mobilephone,
+                link:new_recording,
+                status:"تحت المراجعة"
+        });
 
     })
     .catch(function (error){
@@ -158,11 +166,25 @@ var bot = new builder.UniversalBot(connector,{
 var program = {
 
     SendEmail : function(data,locale){
-            var html = "<div style='width:100%' dir='rtl'><table><tr><td colspan='2'>عزيزي {{user}}</td></tr><tr><td> رقم الشكوى</td><td>{{complaint}}</td></tr></table></div>";
+            //var html = "<div style='width:100%' dir='rtl'><table><tr><td colspan='2'>عزيزي {{user}}</td></tr><tr><td> رقم الشكوى</td><td>{{complaint}}</td></tr></table></div>";
+            //var html = "السلام عليكم {{username}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي.";
+            html += "<div dir=’rtl’> السلام عليكم {{name}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي."
+            +"<table>"
+            +"<tr><td>الاسم الكامل</td><td>{{name}}</td></tr>"
+            +"<tr><td>مقدم الشكوى</td><td>{{type}}</td></tr>"
+            +"<tr><td>البريد الالكتروني</td><td>{{email}}</td></tr>"
+            +"<tr><td>رقم الجوال</td><td>{{mobile}}</td></tr>"
+            +"<tr><td>الشكوى</td><td>{{link}}</td></tr>"
+            +"<tr><td>حالة الشكوى</td><td>{{status}}</td></tr>"
+            +"</table></div>";
+            +"مع تحيات،<br/><a href=”http://www.edu.gov.qa”> وزارة التعليم والتعليم العالي </a>";
             var subject = "رقم الشكوى";
-            html = html.replace("{{user}}",data.name);
-            html = html.replace("{{complaint}}",data.complaint);
-
+            html = html.replace("{{name}}",data.name);
+            html = html.replace("{{type}}",data.type);
+            html = html.replace("{{email}}",data.email);
+            html = html.replace("{{mobile}}",data.mobile);
+            html = html.replace("{{link}}",data.link);
+            html = html.replace("{{status}}",data.status);
             var transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -419,7 +441,7 @@ bot.dialog("followup",[
     },function(session,results){
         
         var crmCase = {
-            new_crmcomment : new DateTime().toDateString()+ " Requested phone call"
+            new_crmcomment : new Date().toDateString()+ " Requested phone call"
             };
         dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
             
