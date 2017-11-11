@@ -554,7 +554,8 @@ bot.dialog("followup",[
         }
         else if(results.response.entity == "ليس لدي أي استفسار آخر")
             {
-                session.replaceDialog("Testing2");
+                session.send("شكرا لاستخدامك خدماتنا الالكترونية. نتمنى رؤيتك مجددا");
+                session.endDialog();
             }
         else{
             session.endDialog();
