@@ -61,7 +61,7 @@ function CreateCase(contact,crmCase){
             {
                 name:contact.firstname ,
                 email:contact.emailaddress1 ,
-                type:crmCase.title,
+                type:contact.jobtitle,
                 mobile:contact.mobilephone,
                 link:crmCase.new_recording,
                 status:"تحت المراجعة"
@@ -92,7 +92,7 @@ var connector = new builder.ChatConnector({
 function createRecord(complaint){
      
     var contact = {
-        firstname: complaint.Name,mobilephone: complaint.Mobile,emailaddress1: complaint.Email
+        firstname: complaint.Name,mobilephone: complaint.Mobile,emailaddress1: complaint.Email,jobtitle:complaint.Role
     };
 
     var crmCase = {
@@ -220,7 +220,52 @@ var program = {
             }
             })
 
-    },
+    }, SendEmailUpdate : function(data,locale){
+        //var html = "<div style='width:100%' dir='rtl'><table><tr><td colspan='2'>عزيزي {{user}}</td></tr><tr><td> رقم الشكوى</td><td>{{complaint}}</td></tr></table></div>";
+        //var html = "السلام عليكم {{username}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي.";
+        var html = "";
+        html += "<div dir='rtl'> السلام عليكم {{name}}،<br/>قد تم استلام شكواكم وسنقوم بالتواصل معكم في أسرع وقت ممكن لمساعدتكم في حلها<br/> أدناه تجدون ملخص البيانات التي تم جمعها، علما بأنه بامكانكم تفقد حالة الشكوى في أي وقت عبر زيارة موقعنا والتواصل مع المساعد الآلي."
+        +"<br/><br/><table>"
+        +"<tr><td>الاسم الكامل</td><td>{{name}}</td></tr>"
+        +"<tr><td>مقدم الشكوى</td><td>{{type}}</td></tr>"
+        +"<tr><td>البريد الالكتروني</td><td>{{email}}</td></tr>"
+        +"<tr><td>رقم الجوال</td><td>{{mobile}}</td></tr>"
+        +"<tr><td>الشكوى</td><td><a href='{{link}}'>اضغط هنا</a></td></tr>"
+        +"<tr><td>حالة الشكوى</td><td>{{status}}</td></tr>"
+        +"</table><br/>"
+        +"مع تحيات،<br/><a href='http://www.edu.gov.qa'> وزارة التعليم والتعليم العالي </a>"
+        +"</div>";
+        var subject = "وزارة التعليم والتعليم العالي";
+        html = html.replace("{{name}}",data.name);
+        html = html.replace("{{name}}",data.name);
+        html = html.replace("{{type}}",data.type);
+        html = html.replace("{{email}}",data.email);
+        html = html.replace("{{mobile}}",data.mobile);
+        html = html.replace("{{link}}",data.link);
+        html = html.replace("{{status}}",data.status);
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'rattazataom@gmail.com',
+                pass: '!!xuloloL'
+            }
+        });
+        var mailOptions = {
+            from: 'rattazataom@gmail.com',
+            to: data.email,
+            subject: subject,
+            html: html,
+            
+        };
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+        })
+
+},
  
     Student:[
         {
