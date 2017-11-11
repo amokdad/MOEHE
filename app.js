@@ -261,51 +261,60 @@ var program = {
            Content:"حصدت دولة قطر 4 ميداليات برونزية في منافسات اولمبياد الكيمياء العربي التي استضافتها  دولة الكويت خلال الفترة من 15-19 اكتوبر الجاري",
            Description:"طلاب قطر يحصدون 4 برونزيات في اولمبياد الكيمياء ",
            //Content : "<a hrref='google.com'>test</a>" ,
-           Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2342342323243.JPG"
+           Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2342342323243.JPG",
+           Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10829"
         }, 
         {
             Content:"توجه وفد قطري من طلاب المرحلة الثانوية إلى دولة الكويت الشقيقة للمشاركة في منافسات أولمبياد الكيمياء العربي الثامن والمزمع انعقاده في الفترة من 15 إلى 19 أكتوبر الجاري ",
             Description:"طلاب قطريون يغادرون إلى دولة الكويت",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/IMG_4511.JPG"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/IMG_4511.JPG",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10804"
         }, 
         {
             Content:"تحت شعار ' بالتميز نبني الأجيال' نظمت اللجنة المنظمة لجائزة التميز العلمي في دورتها الحادية عشرة 2018م اليوم ورشة تدريبية خاصة في مكتبة جامعة قطر (بنين وبنات)",
             Description:"انعقاد ورشة تعريفية بجائزة الطالب الجامعي",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2017-10-16-PHOTO-00000106.jpg"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/2017-10-16-PHOTO-00000106.jpg",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10803"
         }
     ],
     Parent:[
         {
             Content:"ناقش الاجتماع الذي عقدته  إدارة التربية الخاصة ورعاية الموهوبين  مع اللجنة الاستشارية للمعلمين في الميدان التعليمي برئاسة السيدة هنادي منصور الخاطر مدير إدارة التربية الخاصة ورعاية الموهوبين",
             Description:"التعليم تناقش مستجدات التربية الخاصة",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/mwhobeen453453.jpeg"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/mwhobeen453453.jpeg",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10798"
         }, 
         {
             Content:"نظم  مشروع مهاراتي بإدارة الطفولة المبكرة ورشة للنواب الإداريين والاخصائيات الاجتماعيات والمشرفات الادارية لمدارس الفوج الاول والثاني الابتدائية تحت مسمى",
             Description:"تمكين أولياء الامور : ورشة للنواب والمشرفات ",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7208.jpg"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7208.jpg",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10834"
         }, 
         {
             Content:"عقدت اللجنة المنظمة لجوائز يوم التميز العلمي بفندق هيلتون الدوحة اليوم سبع ورش تدريبية قدمها رؤساء وأعضاء لجان تحكيم فئات الجائزة المختلفة وذلك لتعريف المهتمين بالتقدم لجوائز",
             Description:"ورش تدريبية للمهتمين بالتقدم لجوائز التميز ",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z6324234533.JPG"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z6324234533.JPG",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10757"
         }
     ],
     Teacher:[
         {
             Content:"صدر سعادة الدكتور محمد بن عبد الواحد الحمادي وزير التعليم والتعليم العالي  قراراً وزارياً بتعيين السيدة ريما محمد أبو خديجة  مديرا لإدارة المناهج الدراسية ومصادر التعلم",
             Description:"ريما أبو خديجة مديرا لإدارة المناهج الدراسية",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/PublishingImages/Rema%20Abou%20Khadiga_1.jpg"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/PublishingImages/Rema%20Abou%20Khadiga_1.jpg",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10826"
         }, 
         {
             Content:"المعلم  والمعلمة لهما  مكانة وأهمية كبيرة في تربية وتعليم الناشئة، لأنهما أساس الحياة والأخلاق، ولهما الفضل الأكبر في حياة الطلاب،  فهما من  يعلمانهم  كيفية حمل القلم والقراءة إلى أن يصلا",
             Description:"مدرسة زينب بنت جحش قالت للمعلمة: لك كل الشكر والتقدير",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/zinabBentGahsh934898.jpg"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/zinabBentGahsh934898.jpg",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10826"
         }, 
         {
             Content:"بدأ اليوم البرنامج التدريبي حول استخدام تكنولوجيا المعلومات والاتصال في التعليم، والذي نظمه مركز التدريب والتطوير التربوي بالتعاون مع اللجنة الوطنية القطرية للتربية والثقافة والعلوم والمنظمة",
             Description:"بدء البرنامج التدريبي الخاص باستخدام تكنولوجيا",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7226.JPG"
+            Image:"http://www.edu.gov.qa/Ar/Media/News/RelatedPhotos/AR7Z7226.JPG",
+            Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10833"
         }
     ],
     Constants : {
@@ -351,9 +360,9 @@ bot.dialog("Testing2",[
                     .title(d[i].Description)
                     .text(d[i].Content.substring(0,150)+"...")
                     .images([builder.CardImage.create(session, d[i].Image)])
-                    /*.buttons([
-                        builder.CardAction.imBack(session, i, "المزيد")
-                    ])*/
+                    .buttons([
+                        builder.CardAction.openUrl(session, d[i].Link, "المزيد")
+                    ])
                 );
             }
             msg.attachments(attachments);
