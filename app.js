@@ -299,9 +299,9 @@ var program = {
     ],
     Teacher:[
         {
-            Content:"صدر سعادة الدكتور محمد بن عبد الواحد الحمادي وزير التعليم والتعليم العالي  قراراً وزارياً بتعيين السيدة ريما محمد أبو خديجة  مديرا لإدارة المناهج الدراسية ومصادر التعلم",
-            Description:"ريما أبو خديجة مديرا لإدارة المناهج الدراسية",
-            Image:"http://www.edu.gov.qa/Ar/Media/News/PublishingImages/Rema%20Abou%20Khadiga_1.jpg",
+            Content:"اريس : شارك وفد دولة قطر في اجتماعات اللجان التخصصية للمؤتمر العام التاسع والثلاثون",
+            Description:"مشاركة قطرية في لجان اليونسكو على هامش المؤتمر العام",
+            Image:"http://www.edu.gov.qa/Ar/Media/News/PublishingImages/Uniceco11112017.jpg",
             Link:"http://www.edu.gov.qa/Ar/Media/News/Pages/NewsDetails.aspx?NewsID=10826"
         }, 
         {
