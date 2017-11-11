@@ -332,7 +332,7 @@ bot.dialog("Testing2",[
         },
         function(session,results){
             var output = results.response.entity;
-            if(output = "ليس لدي أي استفسارات أخرى")
+            if(output == "ليس لدي أي استفسارات أخرى")
             {
                 session.send("شكرا لاستخدامك خدماتنا الالكترونية. نتمنى رؤيتك مجددا");
                 session.endDialog();
@@ -352,7 +352,7 @@ bot.dialog("followupfinish",[
     },
     function(session,results){
         var output = results.response.entity;
-        if(output = "ليس لدي أي استفسارات أخرى")
+        if(output == "ليس لدي أي استفسارات أخرى")
         {
             session.send("شكرا لاستخدامك خدماتنا الالكترونية. نتمنى رؤيتك مجددا");
             session.endDialog();
