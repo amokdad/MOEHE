@@ -527,7 +527,8 @@ bot.dialog("followup",[
 
                     program.SendEmailUpdate(
                         {
-                            status:session.conversationData.incstatus
+                            status:session.conversationData.incstatus,
+                            email: session.conversationData.incEmail
                     });
 
                 session.replaceDialog("followupfinish");
