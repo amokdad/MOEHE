@@ -343,7 +343,28 @@ bot.dialog("Testing2",[
             
     
         }
-    ])
+    ]),
+bot.dialog("followupfinish",[
+    function(session){
+        builder.Prompts.choice(session, "هل بإمكاني مساعدتك بأي شيء آخر؟",
+        "الرجوع الى القائمة الرئيسية|ليس لدي أي استفسارات أخرى",{listStyle: builder.ListStyle.button});
+ 
+    },
+    function(session,results){
+        var output = results.response.entity;
+        if(output = "ليس لدي أي استفسارات أخرى")
+        {
+            session.send("شكرا لاستخدامك خدماتنا الالكترونية. نتمنى رؤيتك مجددا");
+            session.endDialog();
+        }
+        else{
+            session.replaceDialog("identifyRole");
+        }
+        
+
+    }
+
+])
 bot.dialog("Testing",[
 
     function(session){
@@ -464,7 +485,7 @@ bot.dialog("followup",[
             };
                 dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
     
-     
+                session.replaceDialog("followupfinish");
             })
             .catch(function (error){
                 
