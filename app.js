@@ -92,7 +92,7 @@ var connector = new builder.ChatConnector({
 function createRecord(complaint){
      
     var contact = {
-        firstname: complaint.Name,mobilephone: complaint.Mobile,emailaddress1: complaint.Email,jobtitle:complaint.Role
+        firstname: complaint.Name,mobilephone: complaint.Mobile,emailaddress1: complaint.Email,jobtitle:complaint.Service
     };
 
     var crmCase = {
