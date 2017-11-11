@@ -464,7 +464,7 @@ bot.dialog("followup",[
             };
                 dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
     
-    
+     
             })
             .catch(function (error){
                 
