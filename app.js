@@ -447,7 +447,7 @@ bot.dialog("followup",[
     function(session,results){
       
         var email = session.message.text;
-        
+        session.conversationData.incEmail = email;
         dynamicsWebApi.retrieveAll("incidents", ["title","createdon","new_crmstatus"],"new_useremail eq '" + email + "'").then(function (response) {
             var records = response.value;
 
@@ -459,7 +459,12 @@ bot.dialog("followup",[
                 var incident = response.value[0].incidentid;
                 session.dialogData.incidentId = incident;
                 var status = response.value[0].new_crmstatus == 100000000 ? "تحت الاجراء": "مغلقة";
-  
+                
+
+                session.conversationData.inctitle = response.value[0].title;
+                session.conversationData.incdate = date;
+                session.conversationData.incstatus = status;
+
                 var msg = "لقد قمت بتقديم شكوى بتاريخ التاريخ \n\n وحالة الشكوى هي: الحالة ".replace("التاريخ",date).replace("الحالة",status);
                 session.send(msg);
                 builder.Prompts.choice(session, "هل بإمكاني مساعدتك بأي استفسار آخر أو هل ترغب بأن يقوم أحد مستشارينا بالتواصل معك سريعا؟" ,
@@ -479,13 +484,23 @@ bot.dialog("followup",[
         
     },function(session,results){
         
-        console.log(JSON.stringify(results));
+        var msg = "قام مقدم الشكوى بالتقدم بطلب للمراجعة في تاريخ (((التاريخ والساعة)))، يرجى تحديد موعد للاتصال وتحديث حالة الشكوى.".replace("(((التاريخ والساعة)))",new Date().toLocaleString("ar-EG"));
         if(results.response.entity=="نعم أريد أن تتصلوا بي"){
             var crmCase = {
-                new_crmcomment : new Date().toDateString()+ " Requested a phone call"
+                new_crmcomment : msg
             };
                 dynamicsWebApi.update(session.dialogData.incidentId,"incidents", crmCase).then(function (response) {
-    
+
+                    program.SendEmail(
+                        {
+                            name:"contact.firstname" ,
+                            email:session.conversationData.incEmail ,
+                            type:session.conversationData.inctitle,
+                            mobile:"contact.mobilephone",
+                            link:"new_recording",
+                            status:session.conversationData.incstatus
+                    });
+
                 session.replaceDialog("followupfinish");
             })
             .catch(function (error){
